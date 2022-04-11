@@ -5,13 +5,15 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "test": "jest --maxWorkers=50%",
+    "tests": "jest --maxWorkers=50%",
     "coverage": "jest --coverage --maxWorkers=50%"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.23",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.4",
     "ts-node-dev": "^1.1.8",
