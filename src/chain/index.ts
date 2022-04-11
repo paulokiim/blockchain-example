@@ -3,13 +3,14 @@ import blockFunctions from './block';
 const blockchain: BlockchainArray = [];
 
 const createGenesisBlock = (): Block => {
-  const block = blockFunctions.createBlock({ data: '', previousHash: '0' });
+  const block = blockFunctions.createBlock({ data: {}, previousHash: '0' });
   return block;
 };
 
 const createBlockchain = () => {
   const block = createGenesisBlock();
   blockchain.push(block);
+  return blockchain;
 };
 
 const getLastestBlock = (): Block => {
@@ -47,4 +48,10 @@ const chainIsValid = (): boolean => {
   return true;
 };
 
-export { createBlockchain, addNewBlock, chainIsValid };
+export default {
+  createGenesisBlock,
+  createBlockchain,
+  addNewBlock,
+  chainIsValid,
+  getLastestBlock,
+};
