@@ -9,6 +9,7 @@
     "baseUrl": "./",
     "paths": { "src/*": ["src/*"] },
     "types": ["node", "jest"],
+    "esModuleInterop": true,
     "skipLibCheck": true
   }
 }
