@@ -1,5 +1,5 @@
-import block from '../../../src/chain/block';
-import blockchain from '../../../src/chain';
+import block from '../../../../src/core/chain/block';
+import blockchain from '../../../../src/core/chain';
 
 describe('## Testing index.ts functions', () => {
   afterAll(() => {

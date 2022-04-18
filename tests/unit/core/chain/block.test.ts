@@ -1,4 +1,4 @@
-import blockFunctions from '../../../src/chain/block';
+import blockFunctions from '../../../../src/core/chain/block';
 
 describe('## Testing block.ts functions', () => {
   afterAll(() => {
