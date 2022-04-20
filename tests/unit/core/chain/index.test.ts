@@ -1,6 +1,13 @@
 import block from '../../../../src/core/chain/block';
 import blockchain from '../../../../src/core/chain';
 
+import {
+  mockedGenesisHash,
+  mockedTimestamp,
+  mockedGenesisBlock,
+  mockedBlock,
+} from '../../../fixtures/block';
+
 describe('## Testing index.ts functions', () => {
   afterAll(() => {
     jest.restoreAllMocks();
@@ -8,27 +15,7 @@ describe('## Testing index.ts functions', () => {
   const mockBlockCreateBlock = jest.spyOn(block, 'createBlock');
   const mockGetLatestBlock = jest.spyOn(blockchain, 'getLastestBlock');
 
-  const mockedGenesisHash =
-    '44d34c2e5fec6c70251e5c18208c9803b624d6cc2fcb2b770bad5537c8daa8a7';
-  const mockedBlockHash =
-    '8be45c40ac06a32fa653fab338317f68d8ff402ae57a6ea0ebb461ca2ec13994';
-
-  const mockedTimestamp = 1649698218910;
   Date.now = jest.fn(() => mockedTimestamp);
-
-  const mockedGenesisBlock = {
-    timestamp: mockedTimestamp,
-    hash: mockedGenesisHash,
-    previousHash: '0',
-    data: {},
-  };
-
-  const mockedBlock = {
-    timestamp: mockedTimestamp,
-    hash: mockedBlockHash,
-    previousHash: mockedGenesisHash,
-    data: {},
-  };
 
   describe('# Testing createGenesisBlock()', () => {
     it('Should create genesis block', () => {

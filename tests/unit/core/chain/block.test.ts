@@ -1,7 +1,7 @@
 import blockFunctions from '../../../../src/core/chain/block';
 
 describe('## Testing block.ts functions', () => {
-  afterAll(() => {
+  afterEach(() => {
     jest.restoreAllMocks();
   });
 
