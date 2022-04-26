@@ -13,6 +13,7 @@ describe('## Testing index.ts functions', () => {
     jest.restoreAllMocks();
   });
   const mockBlockCreateBlock = jest.spyOn(block, 'createBlock');
+  const mockBlockCalculateHash = jest.spyOn(block, 'calculateHash');
   const mockGetLatestBlock = jest.spyOn(blockchain, 'getLastestBlock');
 
   Date.now = jest.fn(() => mockedTimestamp);
@@ -65,6 +66,15 @@ describe('## Testing index.ts functions', () => {
     it('Should get invalid blockchain returning false', () => {
       mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
       mockBlockCreateBlock.mockReturnValue(mockedBlock);
+      blockchain.addNewBlock({ data: 1 });
+      const invalidChain = blockchain.chainIsValid();
+      expect(invalidChain).toEqual(false);
+    });
+
+    it('Should get invalid blockchain when calculating hash', () => {
+      mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
+      mockBlockCreateBlock.mockReturnValue(mockedBlock);
+      mockBlockCalculateHash.mockReturnValue('');
       blockchain.addNewBlock({ data: 1 });
       const invalidChain = blockchain.chainIsValid();
       expect(invalidChain).toEqual(false);
