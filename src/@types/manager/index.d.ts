@@ -1,3 +1,0 @@
-interface AddBlockParams {
-  data: JSONValue;
-}
