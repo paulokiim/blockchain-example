@@ -4,7 +4,8 @@ const mockRequest = {
   body: {},
   headers: {},
   params: {},
-} as Request;
+  file: { originalname: 'fake', location: 'fake' } as Express.MulterS3.File,
+} as unknown as Request;
 
 const mockResponse = {
   send: jest.fn(),
