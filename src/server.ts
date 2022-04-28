@@ -18,7 +18,7 @@ const addRoutes = (app: express.Application) => {
   app.use('/', healthcheckRoutes);
 };
 
-const setupApp = () => {
+const setupApp = (): express.Application => {
   const app = express();
 
   addMiddlewares(app);

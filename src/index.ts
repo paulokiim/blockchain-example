@@ -4,9 +4,8 @@ import { createConnection } from 'typeorm';
 import config from './core/config';
 import server from './server';
 import chain from './core/chain';
-import { exit } from 'process';
 
-const startBlockchain = () => chain.createBlockchain();
+const startBlockchain = (): BlockchainArray => chain.createBlockchain();
 
 const startServer = async () => {
   const app = server();
