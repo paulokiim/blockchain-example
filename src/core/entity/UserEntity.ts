@@ -1,7 +1,10 @@
-import { Entity, Column, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class UserEntity {
+  @PrimaryColumn({ name: 'uid', nullable: false })
+  uid!: string;
+
   @Column({ name: 'username', nullable: false })
   username!: string;
 
