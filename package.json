@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "typeorm": "ts-node --transpile-only ./node_modules/typeorm/cli -f ./src/core/config/database.ts",
-    "test": "ENVIRONMENT=test jest --maxWorkers=50%",
-    "coverage": "ENVIRONMENT=test jest --coverage --maxWorkers=50%",
+    "test": "jest --maxWorkers=50%",
+    "coverage": "jest --coverage --maxWorkers=50%",
     "create": "npm run typeorm -- migration:create -n $NAME",
     "migrate": "npm run typeorm -- migration:run",
     "undo": "npm run typeorm -- migration:revert"
