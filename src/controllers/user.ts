@@ -18,8 +18,8 @@ const register = async (req: Request, res: Response) => {
 const login = async (req: Request, res: Response) => {
   const body = req.body;
   const params: UserLoginParams = {
-    username: body?.username,
-    email: body?.email,
+    username: body.username,
+    email: body.email,
   };
   const response = await manager.login(params);
 
