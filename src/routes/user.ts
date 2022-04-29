@@ -5,6 +5,6 @@ import userController from '../controllers/user';
 const router = express.Router();
 
 router.post('/register', userController.register);
-router.get('/login', (req, res) => res.send({ auth: true }));
+router.get('/login', userController.login);
 
 export default router;
