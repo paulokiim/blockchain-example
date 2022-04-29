@@ -15,4 +15,15 @@ const register = async (req: Request, res: Response) => {
   return res.status(response.statusCode).send(response.data);
 };
 
-export default { register };
+const login = async (req: Request, res: Response) => {
+  const body = req.body;
+  const params: UserLoginParams = {
+    username: body?.username,
+    email: body?.email,
+  };
+  const response = await manager.login(params);
+
+  return res.status(response.statusCode).send(response.data);
+};
+
+export default { register, login };
