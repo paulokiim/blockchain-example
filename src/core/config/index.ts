@@ -5,7 +5,7 @@ import DATABASE_CONFIG from './database';
 dotenv.config();
 
 export default {
-  PORT: Number(process.env.PORT) || 8000,
+  PORT: Number(process.env.PORT),
   AWS_ACCESS_KEY_ID: String(process.env.AWS_ACCESS_KEY_ID),
   AWS_SECRET_ACCESS_KEY: String(process.env.AWS_SECRET_ACCESS_KEY),
   AWS_REGION: String(process.env.AWS_REGION),

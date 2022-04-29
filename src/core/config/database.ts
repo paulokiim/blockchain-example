@@ -10,7 +10,7 @@ export default {
   username: process.env.DB_USERNAME,
   host: process.env.DB_HOST,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  database: `${process.env.DB_DATABASE}`,
   port: Number(process.env.DB_PORT),
   entities: [path.join(__dirname, '..', 'entity', '**', '*.*')],
   migrations: [path.join(__dirname, '..', '..', 'migrations', '**', '*.*')],
