@@ -2,6 +2,7 @@ import { constants as HttpStatus } from 'http2';
 
 import userManager from '../../../src/manager/user';
 import userRepository from '../../../src/core/repository/user';
+import errorEnum from '../../../src/enums/error';
 
 import { mockedUser } from '../../fixtures/user';
 
@@ -48,7 +49,7 @@ describe('## Testing user.js from manager', () => {
         username: mockedUser.username,
       };
       const block = await userManager.login(loginParams);
-      expect(block.data).toEqual('User Not Found');
+      expect(block.data.detail).toEqual(errorEnum.user.userNotFound);
       expect(block.statusCode).toEqual(HttpStatus.HTTP_STATUS_NOT_FOUND);
     });
   });
