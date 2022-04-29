@@ -28,9 +28,17 @@ describe('## Testing user.js from controllers', () => {
       .mockImplementation(
         () => new Promise((resolve) => resolve(mockOnSuccessResponse))
       );
-    it('Should successfully find a user', async () => {
+    it('Should successfully find a user through email', async () => {
       mockResponse.status = jest.fn().mockReturnThis();
       mockResponse.send = jest.fn().mockReturnValue(mockedUser);
+      mockRequest.body = { email: mockedUser.email };
+      const block = await userController.login(mockRequest, mockResponse);
+      expect(block).toEqual(mockedUser);
+    });
+    it('Should successfully find a user through username', async () => {
+      mockResponse.status = jest.fn().mockReturnThis();
+      mockResponse.send = jest.fn().mockReturnValue(mockedUser);
+      mockRequest.body = { username: mockedUser.username };
       const block = await userController.login(mockRequest, mockResponse);
       expect(block).toEqual(mockedUser);
     });
