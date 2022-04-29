@@ -27,16 +27,29 @@ describe('## Testing user.js from manager', () => {
   });
 
   describe('# Testing login()', () => {
-    jest
-      .spyOn(userRepository, 'findOne')
-      .mockImplementation(() => new Promise((resolve) => resolve(mockedUser)));
     it('Should successfully find a user', async () => {
+      jest
+        .spyOn(userRepository, 'findOne')
+        .mockImplementation(
+          () => new Promise((resolve) => resolve(mockedUser))
+        );
       const loginParams: UserLoginParams = {
         username: mockedUser.username,
       };
       const block = await userManager.login(loginParams);
       expect(block.data).toEqual(mockedUser);
       expect(block.statusCode).toEqual(HttpStatus.HTTP_STATUS_OK);
+    });
+    it('Should successfully find a user', async () => {
+      jest
+        .spyOn(userRepository, 'findOne')
+        .mockImplementation(() => new Promise((resolve) => resolve(undefined)));
+      const loginParams: UserLoginParams = {
+        username: mockedUser.username,
+      };
+      const block = await userManager.login(loginParams);
+      expect(block.data).toEqual('User Not Found');
+      expect(block.statusCode).toEqual(HttpStatus.HTTP_STATUS_NOT_FOUND);
     });
   });
 });
