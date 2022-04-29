@@ -6,7 +6,7 @@ import userRepository from '../../../src/core/repository/user';
 import { mockedUser } from '../../fixtures/user';
 
 describe('## Testing user.js from manager', () => {
-  afterEach(() => {
+  afterAll(() => {
     jest.restoreAllMocks();
   });
   describe('# Testing register()', () => {
@@ -23,6 +23,20 @@ describe('## Testing user.js from manager', () => {
       const block = await userManager.register(addParams);
       expect(block.data).toEqual({ created: true });
       expect(block.statusCode).toEqual(HttpStatus.HTTP_STATUS_CREATED);
+    });
+  });
+
+  describe('# Testing login()', () => {
+    jest
+      .spyOn(userRepository, 'findOne')
+      .mockImplementation(() => new Promise((resolve) => resolve(mockedUser)));
+    it('Should successfully find a user', async () => {
+      const loginParams: UserLoginParams = {
+        username: mockedUser.username,
+      };
+      const block = await userManager.login(loginParams);
+      expect(block.data).toEqual(mockedUser);
+      expect(block.statusCode).toEqual(HttpStatus.HTTP_STATUS_OK);
     });
   });
 });
