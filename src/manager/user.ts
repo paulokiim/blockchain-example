@@ -3,6 +3,8 @@ import { constants as HttpStatus } from 'http2';
 import userRepository from '../core/repository/user';
 import responseTransformer from '../utils/response';
 
+import exceptions from '../core/exceptions/user';
+
 const register = async (params: UserSaveParams) => {
   await userRepository.save(params);
   const successParams: OnSuccessParams = {
@@ -21,11 +23,7 @@ const login = async (params: UserLoginParams) => {
     };
     return responseTransformer.onSuccess(successParams);
   }
-  const notFoundParams: OnSuccessParams = {
-    data: 'User Not Found',
-    statusCode: HttpStatus.HTTP_STATUS_NOT_FOUND,
-  };
-  return responseTransformer.onSuccess(notFoundParams);
+  return responseTransformer.onSuccess(exceptions.userNotFound);
 };
 
 export default { register, login };
