@@ -1,3 +1,5 @@
+import { constants as HttpStatus } from 'http2';
+
 import blockchain from '../../../src/core/chain';
 import chainManager from '../../../src/manager/chain';
 
@@ -13,8 +15,9 @@ describe('## Testing chain.js from manager', () => {
       const addParams: AddBlockParams = {
         data: {},
       };
-      const block = chainManager.addBlock(addParams);
-      expect(block).toEqual(mockedBlock);
+      const response = chainManager.addBlock(addParams);
+      expect(response.data).toEqual(mockedBlock);
+      expect(response.statusCode).toEqual(HttpStatus.HTTP_STATUS_CREATED);
     });
   });
 });
