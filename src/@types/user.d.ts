@@ -9,3 +9,5 @@ interface UserFindOneParams {
   username?: string;
   email?: string;
 }
+
+interface UserLoginParams extends UserFindOneParams {}

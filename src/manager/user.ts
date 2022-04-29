@@ -12,4 +12,20 @@ const register = async (params: UserSaveParams) => {
   return responseTransformer.onSuccess(successParams);
 };
 
-export default { register };
+const login = async (params: UserLoginParams) => {
+  const user = await userRepository.findOne(params);
+  if (user) {
+    const successParams: OnSuccessParams = {
+      data: user,
+      statusCode: HttpStatus.HTTP_STATUS_OK,
+    };
+    return responseTransformer.onSuccess(successParams);
+  }
+  const notFoundParams: OnSuccessParams = {
+    data: 'User Not Found',
+    statusCode: HttpStatus.HTTP_STATUS_NOT_FOUND,
+  };
+  return responseTransformer.onSuccess(notFoundParams);
+};
+
+export default { register, login };

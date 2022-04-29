@@ -7,7 +7,7 @@ interface JSONObject {
 interface JSONArray extends Array<JSONValue> {}
 
 interface OnSuccessParams {
-  data: JSONValue;
+  data: any;
   statusCode: number;
 }
 
