@@ -5,6 +5,7 @@ import multer from 'multer';
 import S3Config from './core/config/s3';
 import blockchainRoutes from './routes/blockchain';
 import healthcheckRoutes from './routes/healthcheck';
+import userRoutes from './routes/user';
 
 const addMiddlewares = (app: express.Application) => {
   app.use(multer(S3Config).single('file'));
@@ -15,6 +16,7 @@ const addMiddlewares = (app: express.Application) => {
 
 const addRoutes = (app: express.Application) => {
   app.use('/chain', blockchainRoutes);
+  app.use('/user', userRoutes);
   app.use('/', healthcheckRoutes);
 };
 
