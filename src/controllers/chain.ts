@@ -12,8 +12,8 @@ const addBlock = (req: Request, res: Response) => {
     },
   };
 
-  const block = chainManager.addBlock(blockData);
-  return res.send({ block });
+  const response = chainManager.addBlock(blockData);
+  return res.status(response.statusCode).send(response.data);
 };
 
 export default { addBlock };

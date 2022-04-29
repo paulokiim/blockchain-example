@@ -1,4 +1,4 @@
-type JSONValue = string | number | boolean | null | JSONObject | JSONArray;
+type JSONValue = string | number | boolean | JSONObject | JSONArray | Block;
 
 interface JSONObject {
   [x: string]: JSONValue;
