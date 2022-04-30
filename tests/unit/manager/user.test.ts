@@ -2,7 +2,8 @@ import { constants as HttpStatus } from 'http2';
 
 import userManager from '../../../src/manager/user';
 import userRepository from '../../../src/core/repository/user';
-import errorEnum from '../../../src/enums/error';
+import exceptions from '../../../src/core/exceptions/user';
+import auth from '../../../src/auth';
 
 import { mockedUser } from '../../fixtures/user';
 
@@ -21,9 +22,9 @@ describe('## Testing user.js from manager', () => {
         email: mockedUser.email,
         phoneNumber: mockedUser.phoneNumber,
       };
-      const block = await userManager.register(addParams);
-      expect(block.data).toEqual({ created: true });
-      expect(block.statusCode).toEqual(HttpStatus.HTTP_STATUS_CREATED);
+      const user = await userManager.register(addParams);
+      expect(user.data).toEqual({ created: true });
+      expect(user.statusCode).toEqual(HttpStatus.HTTP_STATUS_CREATED);
     });
   });
 
@@ -37,9 +38,10 @@ describe('## Testing user.js from manager', () => {
       const loginParams: UserLoginParams = {
         username: mockedUser.username,
       };
-      const block = await userManager.login(loginParams);
-      expect(block.data).toEqual(mockedUser);
-      expect(block.statusCode).toEqual(HttpStatus.HTTP_STATUS_OK);
+      const user = await userManager.login(loginParams);
+      const token = auth.createJWTToken({ uid: mockedUser.uid });
+      expect(user.data).toEqual({ auth: true, token });
+      expect(user.statusCode).toEqual(HttpStatus.HTTP_STATUS_OK);
     });
     it('Should successfully find a user', async () => {
       jest
@@ -48,9 +50,9 @@ describe('## Testing user.js from manager', () => {
       const loginParams: UserLoginParams = {
         username: mockedUser.username,
       };
-      const block = await userManager.login(loginParams);
-      expect(block.data.detail).toEqual(errorEnum.user.userNotFound);
-      expect(block.statusCode).toEqual(HttpStatus.HTTP_STATUS_NOT_FOUND);
+      const user = await userManager.login(loginParams);
+      expect(user.data).toEqual(exceptions.userNotFound.data);
+      expect(user.statusCode).toEqual(exceptions.userNotFound.statusCode);
     });
   });
 });
