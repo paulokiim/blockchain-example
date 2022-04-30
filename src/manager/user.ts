@@ -1,5 +1,6 @@
 import { constants as HttpStatus } from 'http2';
 
+import auth from '../auth';
 import userRepository from '../core/repository/user';
 import responseTransformer from '../utils/response';
 
@@ -17,8 +18,9 @@ const register = async (params: UserSaveParams) => {
 const login = async (params: UserLoginParams) => {
   const user = await userRepository.findOne(params);
   if (user) {
+    const token = auth.createJWTToken({ uid: user.uid });
     const successParams: OnSuccessParams = {
-      data: user,
+      data: { auth: true, token },
       statusCode: HttpStatus.HTTP_STATUS_OK,
     };
     return responseTransformer.onSuccess(successParams);
