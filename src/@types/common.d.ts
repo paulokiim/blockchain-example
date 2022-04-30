@@ -16,3 +16,7 @@ interface OnErrorParams {
   errorDetail: string;
   statusCode: number;
 }
+
+interface Token {
+  uid: string;
+}
