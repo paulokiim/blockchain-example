@@ -16,6 +16,9 @@ describe('## Testing user.js from manager', () => {
       .spyOn(userRepository, 'save')
       .mockImplementation(() => new Promise((resolve) => resolve(mockedUser)));
     it('Should successfully register a user', async () => {
+      jest
+        .spyOn(userRepository, 'findOne')
+        .mockImplementation(() => new Promise((resolve) => resolve(undefined)));
       const addParams: UserSaveParams = {
         username: mockedUser.username,
         password: mockedUser.password,
@@ -25,6 +28,22 @@ describe('## Testing user.js from manager', () => {
       const user = await userManager.register(addParams);
       expect(user.data).toEqual({ created: true });
       expect(user.statusCode).toEqual(HttpStatus.HTTP_STATUS_CREATED);
+    });
+    it('Should find email already in use', async () => {
+      jest
+        .spyOn(userRepository, 'findOne')
+        .mockImplementation(
+          () => new Promise((resolve) => resolve(mockedUser))
+        );
+      const addParams: UserSaveParams = {
+        username: mockedUser.username,
+        password: mockedUser.password,
+        email: mockedUser.email,
+        phoneNumber: mockedUser.phoneNumber,
+      };
+      const user = await userManager.register(addParams);
+      expect(user.data).toEqual(exceptions.userAlreadyExists.data);
+      expect(user.statusCode).toEqual(exceptions.userAlreadyExists.statusCode);
     });
   });
 
@@ -43,7 +62,7 @@ describe('## Testing user.js from manager', () => {
       expect(user.data).toEqual({ auth: true, token });
       expect(user.statusCode).toEqual(HttpStatus.HTTP_STATUS_OK);
     });
-    it('Should successfully find a user', async () => {
+    it('Should not find a user', async () => {
       jest
         .spyOn(userRepository, 'findOne')
         .mockImplementation(() => new Promise((resolve) => resolve(undefined)));
