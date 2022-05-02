@@ -10,7 +10,7 @@ const mockedUserFindOneParams = {
 };
 
 const mockedUser = {
-  uid: 'fake',
+  uid: '7bc4691e-e18e-4597-bc8f-c8e745fce7de',
   username: 'fake',
   password: 'fake',
   email: 'fake',
