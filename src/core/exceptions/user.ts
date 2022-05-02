@@ -9,4 +9,11 @@ const userNotFound: OnSuccessParams = {
   statusCode: HttpStatus.HTTP_STATUS_NOT_FOUND,
 };
 
-export default { userNotFound };
+const userAlreadyExists: OnSuccessParams = {
+  data: {
+    detail: errorEnum.user.userAlreadyExists,
+  },
+  statusCode: HttpStatus.HTTP_STATUS_BAD_REQUEST,
+};
+
+export default { userNotFound, userAlreadyExists };

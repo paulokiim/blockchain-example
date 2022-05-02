@@ -7,6 +7,11 @@ import responseTransformer from '../utils/response';
 import exceptions from '../core/exceptions/user';
 
 const register = async (params: UserSaveParams) => {
+  const findOneParams: UserFindOneParams = {
+    email: params.email,
+  };
+  const user = await userRepository.findOne(findOneParams);
+  if (user) return responseTransformer.onSuccess(exceptions.userAlreadyExists);
   await userRepository.save(params);
   const successParams: OnSuccessParams = {
     data: { created: true },
