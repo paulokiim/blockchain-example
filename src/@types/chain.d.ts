@@ -19,5 +19,5 @@ interface CalculateHashDTO {
 interface BlockchainArray extends Array<Block> {}
 
 interface AddBlockParams {
-  data: JSONValue;
+  data: JSONObject;
 }

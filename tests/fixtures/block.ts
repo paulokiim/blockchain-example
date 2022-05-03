@@ -19,10 +19,18 @@ const mockedBlock: Block = {
   data: {},
 };
 
+const mockAddBlockParams: AddBlockParams = {
+  data: {
+    filename: 'fake',
+    url: 'fake',
+  },
+};
+
 export {
   mockedGenesisHash,
   mockedBlockHash,
   mockedTimestamp,
   mockedGenesisBlock,
   mockedBlock,
+  mockAddBlockParams,
 };
