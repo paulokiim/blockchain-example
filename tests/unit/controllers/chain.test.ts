@@ -14,6 +14,7 @@ describe('## Testing chain.js from controllers', () => {
     it('Should successfully add a block', () => {
       mockResponse.status = jest.fn().mockReturnThis();
       mockResponse.send = jest.fn().mockReturnValue(mockedBlock);
+      mockRequest.body = { uid: '' };
       const block = chainController.addBlock(mockRequest, mockResponse);
       expect(block).toEqual(mockedBlock);
     });
