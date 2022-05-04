@@ -88,8 +88,6 @@ describe('## Testing index.ts functions', () => {
       expect(exams.length).toEqual(0);
     });
     it('Should return all exams from a user', () => {
-      const a = blockchain.addNewBlock(mockAddBlockParams.data);
-      // console.log(a);
       const exams = blockchain.getUserBlocks(mockGetExamsParams);
       expect(exams.length).toEqual(0);
     });
