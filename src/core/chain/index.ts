@@ -3,7 +3,10 @@ import blockFunctions from './block';
 const blockchain: BlockchainArray = [];
 
 const createGenesisBlock = (): Block => {
-  const block = blockFunctions.createBlock({ data: {}, previousHash: '0' });
+  const block = blockFunctions.createBlock({
+    data: { accountHash: '', filename: '', url: '' },
+    previousHash: '0',
+  });
   return block;
 };
 
@@ -18,7 +21,7 @@ const getLastestBlock = (): Block => {
   return latestBlock;
 };
 
-const addNewBlock = ({ data }: JSONObject): Block => {
+const addNewBlock = (data: BlockData): Block => {
   const latestBlock = getLastestBlock();
   const newBlock = blockFunctions.createBlock({
     data,
@@ -48,10 +51,19 @@ const chainIsValid = (): boolean => {
   return true;
 };
 
+const getUserBlocks = (params: GetExamsParams): Array<Block> => {
+  const { accountHash } = params;
+  const exams = blockchain.filter(
+    (block) => block.data.accountHash === accountHash
+  );
+  return exams;
+};
+
 export default {
   createGenesisBlock,
   createBlockchain,
   addNewBlock,
   chainIsValid,
   getLastestBlock,
+  getUserBlocks,
 };

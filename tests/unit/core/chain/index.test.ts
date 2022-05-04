@@ -5,7 +5,10 @@ import {
   mockedGenesisHash,
   mockedTimestamp,
   mockedGenesisBlock,
+  mockedInvalidBlock,
   mockedBlock,
+  mockGetExamsParams,
+  mockAddBlockParams,
 } from '../../../fixtures/block';
 
 describe('## Testing index.ts functions', () => {
@@ -30,7 +33,7 @@ describe('## Testing index.ts functions', () => {
   });
 
   describe('# Testing createBlockchain()', () => {
-    it('Shoulwd creatte a new blockchain', () => {
+    it('Should create a new blockchain', () => {
       const newBlockchain = blockchain.createBlockchain();
       expect(newBlockchain.length).toEqual(1);
       expect(newBlockchain).toBeInstanceOf(Array);
@@ -51,9 +54,7 @@ describe('## Testing index.ts functions', () => {
     it('Should add a new block to the blockcahin', () => {
       mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
       mockBlockCreateBlock.mockReturnValue(mockedBlock);
-      const newBlock = blockchain.addNewBlock({
-        data: mockedGenesisBlock.data,
-      });
+      const newBlock = blockchain.addNewBlock(mockedBlock.data);
       expect(newBlock).toEqual(mockedBlock);
     });
   });
@@ -66,7 +67,7 @@ describe('## Testing index.ts functions', () => {
     it('Should get invalid blockchain returning false', () => {
       mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
       mockBlockCreateBlock.mockReturnValue(mockedBlock);
-      blockchain.addNewBlock({ data: 1 });
+      blockchain.addNewBlock(mockedInvalidBlock.data);
       const invalidChain = blockchain.chainIsValid();
       expect(invalidChain).toEqual(false);
     });
@@ -75,9 +76,22 @@ describe('## Testing index.ts functions', () => {
       mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
       mockBlockCreateBlock.mockReturnValue(mockedBlock);
       mockBlockCalculateHash.mockReturnValue('');
-      blockchain.addNewBlock({ data: 1 });
+      blockchain.addNewBlock(mockedInvalidBlock.data);
       const invalidChain = blockchain.chainIsValid();
       expect(invalidChain).toEqual(false);
+    });
+  });
+
+  describe('# Testing getUserBlocks()', () => {
+    it('Should return an empty array', () => {
+      const exams = blockchain.getUserBlocks(mockGetExamsParams);
+      expect(exams.length).toEqual(0);
+    });
+    it('Should return all exams from a user', () => {
+      const a = blockchain.addNewBlock(mockAddBlockParams.data);
+      // console.log(a);
+      const exams = blockchain.getUserBlocks(mockGetExamsParams);
+      expect(exams.length).toEqual(0);
     });
   });
 });

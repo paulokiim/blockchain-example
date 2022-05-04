@@ -1,7 +1,7 @@
 const mockedGenesisHash =
-  '44d34c2e5fec6c70251e5c18208c9803b624d6cc2fcb2b770bad5537c8daa8a7';
+  '8a87e70f2f79437eb6f6b1f29676b578be37c903daa21aaff04f3feba626c28e';
 const mockedBlockHash =
-  '8be45c40ac06a32fa653fab338317f68d8ff402ae57a6ea0ebb461ca2ec13994';
+  '82707a25217e4f2b703f0e1365b42dffe4a6f0b2e402ef30463b093ba7add707';
 
 const mockedTimestamp = 1649698218910;
 
@@ -9,21 +9,33 @@ const mockedGenesisBlock: Block = {
   timestamp: mockedTimestamp,
   hash: mockedGenesisHash,
   previousHash: '0',
-  data: {},
+  data: { accountHash: '', filename: '', url: '' },
 };
 
 const mockedBlock: Block = {
   timestamp: mockedTimestamp,
   hash: mockedBlockHash,
   previousHash: mockedGenesisHash,
-  data: {},
+  data: { accountHash: '', filename: '', url: '' },
+};
+
+const mockedInvalidBlock: Block = {
+  timestamp: mockedTimestamp,
+  hash: mockedBlockHash,
+  previousHash: '',
+  data: { accountHash: '', filename: '', url: '' },
 };
 
 const mockAddBlockParams: AddBlockParams = {
   data: {
+    accountHash: 'fake',
     filename: 'fake',
     url: 'fake',
   },
+};
+
+const mockGetExamsParams: GetExamsParams = {
+  accountHash: 'fake',
 };
 
 export {
@@ -33,4 +45,6 @@ export {
   mockedGenesisBlock,
   mockedBlock,
   mockAddBlockParams,
+  mockGetExamsParams,
+  mockedInvalidBlock,
 };
