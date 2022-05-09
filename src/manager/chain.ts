@@ -13,4 +13,13 @@ const addBlock = (params: AddBlockParams) => {
   return responseTransformer.onSuccess(successParams);
 };
 
-export default { addBlock };
+const getUserBlocks = (params: GetExamsParams) => {
+  const blocks = blockchain.getUserBlocks(params);
+  const successParams: OnSuccessParams = {
+    data: blocks,
+    statusCode: HttpStatus.HTTP_STATUS_OK,
+  };
+  return responseTransformer.onSuccess(successParams);
+};
+
+export default { addBlock, getUserBlocks };

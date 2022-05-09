@@ -8,7 +8,6 @@ import {
   mockedInvalidBlock,
   mockedBlock,
   mockGetExamsParams,
-  mockAddBlockParams,
 } from '../../../fixtures/block';
 
 describe('## Testing index.ts functions', () => {

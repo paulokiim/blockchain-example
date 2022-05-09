@@ -3,18 +3,30 @@ import { constants as HttpStatus } from 'http2';
 import blockchain from '../../../src/core/chain';
 import chainManager from '../../../src/manager/chain';
 
-import { mockedBlock, mockAddBlockParams } from '../../fixtures/block';
+import {
+  mockedBlock,
+  mockAddBlockParams,
+  mockGetExamsParams,
+} from '../../fixtures/block';
 
 describe('## Testing chain.js from manager', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
   describe('# Testing addBlock()', () => {
-    jest.spyOn(blockchain, 'addNewBlock').mockReturnValue(mockedBlock);
     it('Should successfully add a block', () => {
+      jest.spyOn(blockchain, 'addNewBlock').mockReturnValue(mockedBlock);
       const response = chainManager.addBlock(mockAddBlockParams);
       expect(response.data).toEqual(mockedBlock);
       expect(response.statusCode).toEqual(HttpStatus.HTTP_STATUS_CREATED);
+    });
+  });
+  describe('# Testing getUserBlocks()', () => {
+    it('Should successfully get user blocks', () => {
+      jest.spyOn(blockchain, 'getUserBlocks').mockReturnValue([mockedBlock]);
+      const response = chainManager.getUserBlocks(mockGetExamsParams);
+      expect(response.data).toEqual([mockedBlock]);
+      expect(response.statusCode).toEqual(HttpStatus.HTTP_STATUS_OK);
     });
   });
 });

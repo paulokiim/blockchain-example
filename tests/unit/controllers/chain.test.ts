@@ -19,4 +19,16 @@ describe('## Testing chain.js from controllers', () => {
       expect(block).toEqual(mockedBlock);
     });
   });
+  describe('# Testing getUserBlocks()', () => {
+    it('Should successfully get user blocks', () => {
+      jest
+        .spyOn(chainManager, 'getUserBlocks')
+        .mockReturnValue(mockOnSuccessResponse);
+      mockResponse.status = jest.fn().mockReturnThis();
+      mockResponse.send = jest.fn().mockReturnValue([mockedBlock]);
+      mockRequest.body = { uid: '' };
+      const block = chainController.getUserBlocks(mockRequest, mockResponse);
+      expect(block).toEqual([mockedBlock]);
+    });
+  });
 });

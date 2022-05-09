@@ -19,4 +19,14 @@ const addBlock = (req: Request, res: Response) => {
   return res.status(response.statusCode).send(response.data);
 };
 
-export default { addBlock };
+const getUserBlocks = (req: Request, res: Response) => {
+  const body = req.body;
+
+  const getExamsParams: GetExamsParams = {
+    accountHash: createHash(body.uid),
+  };
+  const response = chainManager.getUserBlocks(getExamsParams);
+  return res.status(response.statusCode).send(response.data);
+};
+
+export default { addBlock, getUserBlocks };
