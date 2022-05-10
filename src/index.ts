@@ -11,16 +11,18 @@ const startServer = async () => {
   const app = server();
 
   startBlockchain();
+
   try {
     await createConnection(config.DATABASE_CONFIG);
 
     app.listen(config.PORT, () =>
       console.log(`Listening to PORT ${config.PORT}`)
     );
+    return app;
   } catch (error) {
     console.log(error);
     throw new Error('Could not connect to database');
   }
 };
 
-startServer();
+export default startServer();
