@@ -26,7 +26,7 @@ describe('## Testing chain.js from controllers', () => {
         .mockReturnValue(mockOnSuccessResponse);
       mockResponse.status = jest.fn().mockReturnThis();
       mockResponse.send = jest.fn().mockReturnValue([mockedBlock]);
-      mockRequest.body = { uid: '' };
+      mockRequest.params = { userUid: 'fake' };
       const block = chainController.getUserBlocks(mockRequest, mockResponse);
       expect(block).toEqual([mockedBlock]);
     });

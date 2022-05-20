@@ -15,7 +15,7 @@ const storageType = multerS3({
   contentType: multerS3.AUTO_CONTENT_TYPE,
   acl: 'public-read',
   key: (_, file, cb) => {
-    const fileName: string = `${Date.now().toString()} - ${file.originalname}`;
+    const fileName: string = file.originalname;
     cb(null, fileName);
   },
 });

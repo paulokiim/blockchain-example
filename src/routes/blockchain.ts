@@ -5,7 +5,11 @@ import auth from '../auth';
 
 const router = express.Router();
 
-router.post('/block', auth.checkAuthentication, chainController.addBlock);
-router.get('/blocks', auth.checkAuthentication, chainController.getUserBlocks);
+router.post('/blocks', auth.checkAuthentication, chainController.addBlock);
+router.get(
+  '/blocks/:userUid',
+  auth.checkAuthentication,
+  chainController.getUserBlocks
+);
 
 export default router;

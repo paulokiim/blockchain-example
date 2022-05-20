@@ -6,6 +6,7 @@ import chainManager from '../manager/chain';
 const addBlock = (req: Request, res: Response) => {
   const file = req.file as Express.MulterS3.File;
   const body = req.body;
+  // Usar o uid dentro do body
 
   const blockData: AddBlockParams = {
     data: {
@@ -20,10 +21,10 @@ const addBlock = (req: Request, res: Response) => {
 };
 
 const getUserBlocks = (req: Request, res: Response) => {
-  const body = req.body;
+  const params = req.params;
 
   const getExamsParams: GetExamsParams = {
-    accountHash: createHash(body.uid),
+    accountHash: createHash(params.userUid),
   };
   const response = chainManager.getUserBlocks(getExamsParams);
   return res.status(response.statusCode).send(response.data);
