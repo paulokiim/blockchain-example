@@ -1,7 +1,5 @@
 import dotenv from 'dotenv';
 
-import DATABASE_CONFIG from './database';
-
 dotenv.config();
 
 export default {
@@ -12,5 +10,4 @@ export default {
   AWS_REGION: String(process.env.AWS_REGION),
   AWS_BUCKET_NAME: String(process.env.AWS_BUCKET_NAME),
   MAX_UPLOAD_SIZE: Number(process.env.MAX_UPLOAD_SIZE) || 2 * 1024 * 1024,
-  DATABASE_CONFIG,
 };
