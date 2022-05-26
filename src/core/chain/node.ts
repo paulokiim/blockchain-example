@@ -3,7 +3,7 @@ import WebSocket from 'ws';
 
 import config from '../config';
 
-const sockets: Array<WebSocket> = [];
+const sockets: Array<WebSocket.WebSocket> = [];
 
 const MSG_TYPES = {
   NEW_NODE: 'NEW_NODE',
@@ -20,9 +20,10 @@ const initPeerToPeerServer = (server: Server) => {
   const wsServer = new WebSocket.Server({ server });
   console.log(`Websocket server initialized on PORT ${config.PORT}`);
   wsServer.on('connection', (ws) => initConnection(ws));
+  return wsServer;
 };
 
-const initConnection = (ws: WebSocket) => {
+const initConnection = (ws: WebSocket.WebSocket) => {
   sockets.push(ws);
   console.log('New node connected:', ws.url);
   initErrorHandler(ws);
@@ -30,7 +31,7 @@ const initConnection = (ws: WebSocket) => {
   writeMessage(ws, { type: MSG_TYPES.NEW_NODE, data: sockets });
 };
 
-const initMessageHandler = (ws: WebSocket) => {
+const initMessageHandler = (ws: WebSocket.WebSocket) => {
   ws.on('message', (data: string) => {
     const message = JSON.parse(data);
     switch (message.type) {
@@ -48,16 +49,16 @@ const initMessageHandler = (ws: WebSocket) => {
   });
 };
 
-const closeConnection = (ws: WebSocket) => {
+const closeConnection = (ws: WebSocket.WebSocket) => {
   sockets.splice(sockets.indexOf(ws), 1);
 };
 
-const initErrorHandler = (ws: WebSocket) => {
+const initErrorHandler = (ws: WebSocket.WebSocket) => {
   ws.on('close', () => closeConnection(ws));
   ws.on('error', () => closeConnection(ws));
 };
 
-const writeMessage = (ws: WebSocket, message: Message) => {
+const writeMessage = (ws: WebSocket.WebSocket, message: Message) => {
   ws.send(JSON.stringify(message));
 };
 
