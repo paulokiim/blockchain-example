@@ -1,3 +1,7 @@
+interface IMessage {
+  type: string;
+  data: any;
+}
 interface BlockData {
   accountHash: string;
   filename: string;

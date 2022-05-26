@@ -11,11 +11,6 @@ const MSG_TYPES = {
   GET_ALL: 'GET_ALL',
 };
 
-interface Message {
-  type: string;
-  data: any;
-}
-
 const initPeerToPeerServer = (server: Server) => {
   const wsServer = new WebSocket.Server({ server });
   console.log(`Websocket server initialized on PORT ${config.PORT}`);
@@ -58,11 +53,11 @@ const initErrorHandler = (ws: WebSocket.WebSocket) => {
   ws.on('error', () => closeConnection(ws));
 };
 
-const writeMessage = (ws: WebSocket.WebSocket, message: Message) => {
+const writeMessage = (ws: WebSocket.WebSocket, message: IMessage) => {
   ws.send(JSON.stringify(message));
 };
 
-const broadcast = (message: Message) => {
+const broadcast = (message: IMessage) => {
   sockets.forEach((socket) => writeMessage(socket, message));
 };
 
