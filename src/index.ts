@@ -4,6 +4,7 @@ import { createConnection } from 'typeorm';
 import config from './core/config';
 import server from './server';
 import chain from './core/chain';
+import node from './core/chain/node';
 
 const startBlockchain = (): BlockchainArray => chain.createBlockchain();
 
@@ -15,9 +16,12 @@ const startServer = async () => {
   try {
     await createConnection(config.DATABASE_CONFIG);
 
-    app.listen(config.PORT, () =>
+    const expressServer = app.listen(config.PORT, () =>
       console.log(`Listening to PORT ${config.PORT}`)
     );
+
+    node.initPeerToPeerServer(expressServer);
+
     return app;
   } catch (error) {
     console.log(error);
