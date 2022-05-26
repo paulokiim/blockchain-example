@@ -1,7 +1,3 @@
-interface IMessage {
-  type: string;
-  data: any;
-}
 interface BlockData {
   accountHash: string;
   filename: string;
@@ -34,4 +30,9 @@ interface AddBlockParams {
 
 interface GetExamsParams {
   accountHash: string;
+}
+
+interface SocketMessage {
+  type: string;
+  data: Record<string, any>;
 }

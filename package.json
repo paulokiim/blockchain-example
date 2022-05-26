@@ -5,8 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "tests": "ts-node node_modules/jest/bin/jest.js --maxWorkers=50%",
-    "coverage": "ts-node node_modules/jest/bin/jest.js --coverage --maxWorkers=50%"
+    "tests": "ts-node node_modules/jest/bin/jest.js --silent",
+    "coverage": "ts-node node_modules/jest/bin/jest.js --coverage --silent"
   },
   "keywords": [],
   "author": "",

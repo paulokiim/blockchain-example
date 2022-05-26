@@ -2,6 +2,7 @@ module.exports = {
   testEnvironment: 'node',
   transform: { '^.+\\.ts?$': 'ts-jest' },
   testRegex: '/tests/.*\\.(test|spec)?\\.(ts|tsx)$',
+  verbose: true,
   moduleFileExtensions: ['ts', 'js', 'node'],
   collectCoverageFrom: [
     'src/**/*.ts',
