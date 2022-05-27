@@ -1,10 +1,10 @@
 import { Server } from 'http';
 import WebSocket from 'ws';
 
-import { mockedBlock } from '../../fixtures/block';
+import { mockedBlockchain } from '../../fixtures/block';
 
 import MSG_TYPE from '../../../src/enums/node-message';
-import nodeService from '../../../src/services/node';
+import nodeService, * as internalFunctions from '../../../src/services/node';
 import chainManager from '../../../src/manager/chain';
 
 describe('Testing node.ts from services', () => {
@@ -19,12 +19,26 @@ describe('Testing node.ts from services', () => {
     mockServer.close();
   });
 
-  describe('Testing messageHandler()', () => {
+  describe('Testing substituteBlockchain()', () => {
     it('Should substitute blockchain', () => {
+      const mockGetBlockchain = jest
+        .spyOn(chainManager, 'getBlockchain')
+        .mockReturnValue(mockedBlockchain);
+      internalFunctions.subtituteBlockchain();
+      expect(mockGetBlockchain).toBeCalled;
+    });
+  });
+
+  describe('Testing messageHandler()', () => {
+    it(`Should handle ${MSG_TYPE.NEW_NODE} type message`, () => {
+      const mockedSubstituteBlockchain = jest
+        .spyOn(internalFunctions, 'subtituteBlockchain')
+        .mockReturnValue(mockedBlockchain);
       nodeService.messageHandler(
         ws,
         JSON.stringify({ type: MSG_TYPE.NEW_NODE })
       );
+      expect(mockedSubstituteBlockchain).toBeCalled;
     });
   });
 

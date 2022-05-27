@@ -4,7 +4,7 @@ import chainManager from '../manager/chain';
 
 import MSG_TYPES from '../enums/node-message';
 
-const subtituteBlockchain = () => {
+export const subtituteBlockchain = () => {
   const blockchain = chainManager.getBlockchain();
   const substitutedBlockchain = chainManager.substituteBlockchain(blockchain);
   return substitutedBlockchain;
