@@ -3,15 +3,9 @@ import WebSocket from 'ws';
 
 import config from '../config';
 
-export const sockets: Array<WebSocket.WebSocket> = [];
+import MSG_TYPES from '../../enums/node-message';
 
-const MSG_TYPES = {
-  SOCKETS: 'SOCKETS',
-  NEW_NODE: 'NEW_NODE',
-  GET_LATEST: 'GET_LATEST',
-  GET_ALL: 'GET_ALL',
-  ERROR: 'ERROR',
-};
+export const sockets: Array<WebSocket.WebSocket> = [];
 
 const initPeerToPeerServer = (server: Server) => {
   const wsServer = new WebSocket.Server({ server });

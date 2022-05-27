@@ -1,0 +1,7 @@
+export default {
+  SOCKETS: 'SOCKETS',
+  NEW_NODE: 'NEW_NODE',
+  GET_LATEST: 'GET_LATEST',
+  GET_ALL: 'GET_ALL',
+  ERROR: 'ERROR',
+};
