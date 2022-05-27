@@ -4,7 +4,7 @@ import chainManager from '../manager/chain';
 
 import MSG_TYPES from '../enums/node-message';
 
-const subtituteBlockchain = () => {
+export const subtituteBlockchain = () => {
   const blockchain = chainManager.getBlockchain();
   const substitutedBlockchain = chainManager.substituteBlockchain(blockchain);
   return substitutedBlockchain;
@@ -15,12 +15,6 @@ const messageHandler = (ws: WebSocket.WebSocket, data: string) => {
   switch (message.type) {
     case MSG_TYPES.NEW_NODE:
       subtituteBlockchain();
-      break;
-    case MSG_TYPES.GET_LATEST:
-      break;
-    case MSG_TYPES.GET_BLOCKCHAIN:
-      break;
-    case MSG_TYPES.GET_BLOCKCHAIN_RESPONSE:
       break;
   }
 };
