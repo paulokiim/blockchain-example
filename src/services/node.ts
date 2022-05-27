@@ -16,12 +16,6 @@ const messageHandler = (ws: WebSocket.WebSocket, data: string) => {
     case MSG_TYPES.NEW_NODE:
       subtituteBlockchain();
       break;
-    case MSG_TYPES.GET_LATEST:
-      break;
-    case MSG_TYPES.GET_BLOCKCHAIN:
-      break;
-    case MSG_TYPES.GET_BLOCKCHAIN_RESPONSE:
-      break;
   }
 };
 
