@@ -14,11 +14,19 @@ describe('## Testing index.ts functions', () => {
   afterAll(() => {
     jest.restoreAllMocks();
   });
+
   const mockBlockCreateBlock = jest.spyOn(block, 'createBlock');
   const mockBlockCalculateHash = jest.spyOn(block, 'calculateHash');
   const mockGetLatestBlock = jest.spyOn(blockchain, 'getLastestBlock');
 
   Date.now = jest.fn(() => mockedTimestamp);
+
+  describe('# Testing getBlockchain()', () => {
+    it('Should return the blockchain', () => {
+      const blockchainArray = blockchain.getBlockchain();
+      expect(blockchainArray.length).toEqual(0);
+    });
+  });
 
   describe('# Testing createGenesisBlock()', () => {
     it('Should create genesis block', () => {

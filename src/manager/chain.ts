@@ -22,4 +22,9 @@ const getUserBlocks = (params: GetExamsParams) => {
   return responseTransformer.onSuccess(successParams);
 };
 
-export default { addBlock, getUserBlocks };
+const getBlockchain = () => {
+  const blockchainArray = blockchain.getBlockchain();
+  return blockchainArray;
+};
+
+export default { addBlock, getUserBlocks, getBlockchain };

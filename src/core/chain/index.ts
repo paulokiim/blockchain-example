@@ -2,6 +2,8 @@ import blockFunctions from './block';
 
 const blockchain: BlockchainArray = [];
 
+const getBlockchain = (): BlockchainArray => blockchain;
+
 const createGenesisBlock = (): Block => {
   const block = blockFunctions.createBlock({
     data: { accountHash: '', filename: '', url: '' },
@@ -66,4 +68,5 @@ export default {
   chainIsValid,
   getLastestBlock,
   getUserBlocks,
+  getBlockchain,
 };
