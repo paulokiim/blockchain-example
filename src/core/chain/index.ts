@@ -4,6 +4,12 @@ const blockchain: BlockchainArray = [];
 
 const getBlockchain = (): BlockchainArray => blockchain;
 
+const substituteBlockchain = (newBlockchain: BlockchainArray) => {
+  blockchain.splice(0, blockchain.length);
+  blockchain.push(...newBlockchain);
+  return newBlockchain;
+};
+
 const createGenesisBlock = (): Block => {
   const block = blockFunctions.createBlock({
     data: { accountHash: '', filename: '', url: '' },
@@ -69,4 +75,5 @@ export default {
   getLastestBlock,
   getUserBlocks,
   getBlockchain,
+  substituteBlockchain,
 };

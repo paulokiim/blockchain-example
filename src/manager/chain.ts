@@ -27,4 +27,15 @@ const getBlockchain = () => {
   return blockchainArray;
 };
 
-export default { addBlock, getUserBlocks, getBlockchain };
+const getLatestBlock = () => blockchain.getLastestBlock();
+
+const substituteBlockchain = (blockchainArray: BlockchainArray) =>
+  blockchain.substituteBlockchain(blockchainArray);
+
+export default {
+  addBlock,
+  getUserBlocks,
+  getBlockchain,
+  getLatestBlock,
+  substituteBlockchain,
+};

@@ -8,9 +8,10 @@ import {
   mockedInvalidBlock,
   mockedBlock,
   mockGetExamsParams,
+  mockedBlockchain,
 } from '../../../fixtures/block';
 
-describe('## Testing index.ts functions', () => {
+describe('Testing index.ts functions', () => {
   afterAll(() => {
     jest.restoreAllMocks();
   });
@@ -21,14 +22,14 @@ describe('## Testing index.ts functions', () => {
 
   Date.now = jest.fn(() => mockedTimestamp);
 
-  describe('# Testing getBlockchain()', () => {
+  describe('Testing getBlockchain()', () => {
     it('Should return the blockchain', () => {
       const blockchainArray = blockchain.getBlockchain();
       expect(blockchainArray.length).toEqual(0);
     });
   });
 
-  describe('# Testing createGenesisBlock()', () => {
+  describe('Testing createGenesisBlock()', () => {
     it('Should create genesis block', () => {
       const genesisBlock = blockchain.createGenesisBlock();
       expect(genesisBlock.previousHash).toEqual(
@@ -39,7 +40,7 @@ describe('## Testing index.ts functions', () => {
     });
   });
 
-  describe('# Testing createBlockchain()', () => {
+  describe('Testing createBlockchain()', () => {
     it('Should create a new blockchain', () => {
       const newBlockchain = blockchain.createBlockchain();
       expect(newBlockchain.length).toEqual(1);
@@ -50,14 +51,14 @@ describe('## Testing index.ts functions', () => {
     });
   });
 
-  describe('# Testing getLastestBlock()', () => {
+  describe('Testing getLastestBlock()', () => {
     it('Should get the last block of the blockchain', () => {
       const lastBlock = blockchain.getLastestBlock();
       expect(lastBlock).toEqual(mockedGenesisBlock);
     });
   });
 
-  describe('# Testing addNewBlock()', () => {
+  describe('Testing addNewBlock()', () => {
     it('Should add a new block to the blockcahin', () => {
       mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
       mockBlockCreateBlock.mockReturnValue(mockedBlock);
@@ -66,7 +67,7 @@ describe('## Testing index.ts functions', () => {
     });
   });
 
-  describe('# Testing chainIsValid()', () => {
+  describe('Testing chainIsValid()', () => {
     it('Should get a valid chain returning true', () => {
       const validChain = blockchain.chainIsValid();
       expect(validChain).toEqual(true);
@@ -89,7 +90,7 @@ describe('## Testing index.ts functions', () => {
     });
   });
 
-  describe('# Testing getUserBlocks()', () => {
+  describe('Testing getUserBlocks()', () => {
     it('Should return an empty array', () => {
       const exams = blockchain.getUserBlocks(mockGetExamsParams);
       expect(exams.length).toEqual(0);
@@ -97,6 +98,13 @@ describe('## Testing index.ts functions', () => {
     it('Should return all exams from a user', () => {
       const exams = blockchain.getUserBlocks(mockGetExamsParams);
       expect(exams.length).toEqual(0);
+    });
+  });
+
+  describe('Testing substituteBlockchain()', () => {
+    it('Should return the substituted blockchain', () => {
+      const newBlockchain = blockchain.substituteBlockchain(mockedBlockchain);
+      expect(newBlockchain).toEqual(mockedBlockchain);
     });
   });
 });

@@ -38,6 +38,8 @@ const mockGetExamsParams: GetExamsParams = {
   accountHash: 'fake',
 };
 
+const mockedBlockchain = [mockedGenesisBlock, mockedBlock];
+
 export {
   mockedGenesisHash,
   mockedBlockHash,
@@ -47,4 +49,5 @@ export {
   mockAddBlockParams,
   mockGetExamsParams,
   mockedInvalidBlock,
+  mockedBlockchain,
 };

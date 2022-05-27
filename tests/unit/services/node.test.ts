@@ -1,7 +1,11 @@
 import { Server } from 'http';
 import WebSocket from 'ws';
 
+import { mockedBlock } from '../../fixtures/block';
+
+import MSG_TYPE from '../../../src/enums/node-message';
 import nodeService from '../../../src/services/node';
+import chainManager from '../../../src/manager/chain';
 
 describe('Testing node.ts from services', () => {
   const mockServer = new Server();
@@ -15,21 +19,12 @@ describe('Testing node.ts from services', () => {
     mockServer.close();
   });
 
-  describe('Testing getBlockchain()', () => {
-    it('Should get the blockchain', () => {
-      const blockchain = nodeService.getBlockchain();
-      expect(blockchain.length).toEqual(0);
-    });
-  });
-
   describe('Testing messageHandler()', () => {
-    it.each([
-      '{"type": "NEW_NODE"}',
-      '{"type": "GET_LATEST"}',
-      '{"type": "GET_ALL"}',
-      '{"type": "FAKE"}',
-    ])('Should handle message', (data: string) => {
-      nodeService.messageHandler(ws, data);
+    it('Should substitute blockchain', () => {
+      nodeService.messageHandler(
+        ws,
+        JSON.stringify({ type: MSG_TYPE.NEW_NODE })
+      );
     });
   });
 
