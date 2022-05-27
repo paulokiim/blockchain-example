@@ -31,8 +31,3 @@ interface AddBlockParams {
 interface GetExamsParams {
   accountHash: string;
 }
-
-interface SocketMessage {
-  type: string;
-  data: Record<string, any>;
-}
