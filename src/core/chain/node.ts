@@ -20,7 +20,7 @@ const initConnection = (ws: WebSocket.WebSocket) => {
   initErrorHandler(ws);
   initMessageHandler(ws);
   nodeService.writeMessage(ws, {
-    type: MSG_TYPES.GET_ALL,
+    type: MSG_TYPES.GET_BLOCKCHAIN,
   });
 };
 

@@ -4,23 +4,23 @@ import chainManager from '../manager/chain';
 
 import MSG_TYPES from '../enums/node-message';
 
-const getBlockchain = () => {
+const subtituteBlockchain = () => {
   const blockchain = chainManager.getBlockchain();
-  return blockchain;
+  const substitutedBlockchain = chainManager.substituteBlockchain(blockchain);
+  return substitutedBlockchain;
 };
 
-export const messageHandler = (ws: WebSocket.WebSocket, data: string) => {
+const messageHandler = (ws: WebSocket.WebSocket, data: string) => {
   const message = JSON.parse(data);
   switch (message.type) {
+    case MSG_TYPES.NEW_NODE:
+      subtituteBlockchain();
+      break;
     case MSG_TYPES.GET_LATEST:
       break;
-    case MSG_TYPES.GET_ALL:
+    case MSG_TYPES.GET_BLOCKCHAIN:
       break;
-    case MSG_TYPES.NEW_NODE:
-      // Get blockchain
-      // Set blockcahin
-      break;
-    default:
+    case MSG_TYPES.GET_BLOCKCHAIN_RESPONSE:
       break;
   }
 };
@@ -35,4 +35,4 @@ const broadcast = (sockets: SocketsArray, message: SocketMessage) => {
   }
 };
 
-export default { getBlockchain, messageHandler, writeMessage, broadcast };
+export default { messageHandler, writeMessage, broadcast };
