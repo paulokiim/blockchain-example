@@ -29,13 +29,13 @@ const getBlockchain = () => {
 
 const getLatestBlock = () => blockchain.getLastestBlock();
 
-const substituteBlockchain = (blockchainArray: BlockchainArray) =>
-  blockchain.substituteBlockchain(blockchainArray);
+const replaceBlockchain = (blockchainArray: BlockchainArray) =>
+  blockchain.replaceBlockchain(blockchainArray);
 
 export default {
   addBlock,
   getUserBlocks,
   getBlockchain,
   getLatestBlock,
-  substituteBlockchain,
+  replaceBlockchain,
 };

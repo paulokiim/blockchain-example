@@ -19,12 +19,12 @@ describe('Testing node.ts from services', () => {
     mockServer.close();
   });
 
-  describe('Testing substituteBlockchain()', () => {
-    it('Should substitute blockchain', () => {
+  describe('Testing replaceBlockchain()', () => {
+    it('Should replace blockchain', () => {
       const mockGetBlockchain = jest
         .spyOn(chainManager, 'getBlockchain')
         .mockReturnValue(mockedBlockchain);
-      internalFunctions.subtituteBlockchain();
+      internalFunctions.replaceBlockchain();
       expect(mockGetBlockchain).toBeCalled;
     });
   });
@@ -32,7 +32,7 @@ describe('Testing node.ts from services', () => {
   describe('Testing messageHandler()', () => {
     it(`Should handle ${MSG_TYPE.NEW_NODE} type message`, () => {
       const mockedSubstituteBlockchain = jest
-        .spyOn(internalFunctions, 'subtituteBlockchain')
+        .spyOn(internalFunctions, 'replaceBlockchain')
         .mockReturnValue(mockedBlockchain);
       nodeService.messageHandler(
         ws,

@@ -48,12 +48,12 @@ describe('Testing chain.js from manager', () => {
     });
   });
 
-  describe('Testing substituteBlockchain()', () => {
-    it('Should return the substituted blockchain', () => {
+  describe('Testing replaceBlockchain()', () => {
+    it('Should return the replace blockchain', () => {
       jest
-        .spyOn(blockchain, 'substituteBlockchain')
+        .spyOn(blockchain, 'replaceBlockchain')
         .mockReturnValue(mockedBlockchain);
-      const newBlockchain = chainManager.substituteBlockchain(mockedBlockchain);
+      const newBlockchain = chainManager.replaceBlockchain(mockedBlockchain);
       expect(newBlockchain).toEqual(mockedBlockchain);
     });
   });

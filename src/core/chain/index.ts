@@ -4,7 +4,7 @@ const blockchain: BlockchainArray = [];
 
 const getBlockchain = (): BlockchainArray => blockchain;
 
-const substituteBlockchain = (newBlockchain: BlockchainArray) => {
+const replaceBlockchain = (newBlockchain: BlockchainArray) => {
   blockchain.splice(0, blockchain.length);
   blockchain.push(...newBlockchain);
   return newBlockchain;
@@ -75,5 +75,5 @@ export default {
   getLastestBlock,
   getUserBlocks,
   getBlockchain,
-  substituteBlockchain,
+  replaceBlockchain,
 };

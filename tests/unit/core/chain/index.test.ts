@@ -101,9 +101,9 @@ describe('Testing index.ts functions', () => {
     });
   });
 
-  describe('Testing substituteBlockchain()', () => {
-    it('Should return the substituted blockchain', () => {
-      const newBlockchain = blockchain.substituteBlockchain(mockedBlockchain);
+  describe('Testing replaceBlockchain()', () => {
+    it('Should return the replace blockchain', () => {
+      const newBlockchain = blockchain.replaceBlockchain(mockedBlockchain);
       expect(newBlockchain).toEqual(mockedBlockchain);
     });
   });
