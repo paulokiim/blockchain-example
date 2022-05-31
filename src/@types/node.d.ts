@@ -4,3 +4,8 @@ interface SocketMessage {
 }
 
 interface SocketsArray extends Array<WebSocket.WebSocket> {}
+
+interface ConnectToPeerDTO {
+  host: string;
+  port: string;
+}

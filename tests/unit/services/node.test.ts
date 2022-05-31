@@ -36,7 +36,10 @@ describe('Testing node.ts from services', () => {
         .mockReturnValue(mockedBlockchain);
       nodeService.messageHandler(
         ws,
-        JSON.stringify({ type: MSG_TYPE.NEW_NODE })
+        JSON.stringify({
+          message: { type: MSG_TYPE.NEW_NODE },
+          signature: 'fake',
+        })
       );
       expect(mockedSubstituteBlockchain).toBeCalled;
     });
