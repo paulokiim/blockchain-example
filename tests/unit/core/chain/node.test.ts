@@ -22,6 +22,7 @@ describe('Testing node.ts from core/chain', () => {
       expect(server).not.toBeUndefined;
     });
   });
+
   describe('Testing initConnection()', () => {
     it('Should init connection to socket', () => {
       const mockInitErrorHandler = jest
@@ -39,13 +40,17 @@ describe('Testing node.ts from core/chain', () => {
       expect(mockWriteMessage).toBeCalled;
     });
   });
+
   describe('Testing initMessageHandler()', () => {
     it('Should init message handler to socket', () => {
-      const mockWsSend = jest.spyOn(ws, 'send').mockImplementation(() => {});
+      const mockmessageHandler = jest
+        .spyOn(nodeService, 'messageHandler')
+        .mockReturnValue();
       internalFunctions.initMessageHandler(ws);
-      expect(mockWsSend).toBeCalled;
+      expect(mockmessageHandler).toBeCalled;
     });
   });
+
   describe('Testing closeConnection()', () => {
     it('Should close socket connection', () => {
       expect(internalFunctions.sockets.length).toEqual(1);
@@ -55,6 +60,7 @@ describe('Testing node.ts from core/chain', () => {
       expect(internalFunctions.sockets.length).toEqual(0);
     });
   });
+
   describe('Testing initErrorHandler()', () => {
     it('Should init error handler on socket', () => {
       const mockWsSend = jest.spyOn(ws, 'send').mockImplementation(() => {});
