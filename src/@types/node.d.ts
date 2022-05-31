@@ -9,3 +9,9 @@ interface ConnectToPeerDTO {
   host: string;
   port: string;
 }
+
+interface MessageHandlerDTO {
+  ws: WebSocket.WebSocket;
+  sockets: SocketsArray;
+  data: string;
+}
