@@ -14,8 +14,6 @@ export const isBlockchainsEqual = (peerBlockchain: BlockchainArray) => {
   if (blockchain.length !== peerBlockchain.length) return false;
   if (latestBlock.hash !== peerLatestBlock.hash) return false;
   if (latestBlock.previousHash !== peerLatestBlock.previousHash) return false;
-  if (!chainManager.isChainValid(peerBlockchain)) return false;
-  if (!chainManager.isChainValid(blockchain)) return false;
   return true;
 };
 

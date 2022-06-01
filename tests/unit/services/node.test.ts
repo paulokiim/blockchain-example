@@ -50,7 +50,7 @@ describe('Testing node.ts from services', () => {
       const isEqual = internalFunctions.isBlockchainsEqual(peerBlockchain);
       expect(isEqual).toBeFalsy;
     });
-    it('Should have different latest previous hash ', () => {
+    it('Should have different latest previous hash', () => {
       const invalidBlock = {
         ...mockedBlock,
         previousHash: 'fake',
