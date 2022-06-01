@@ -39,10 +39,10 @@ const addNewBlock = (data: BlockData): Block => {
   return newBlock;
 };
 
-const chainIsValid = (): boolean => {
-  for (let i = 1; i < blockchain.length; i++) {
-    const currentBlock = blockchain[i];
-    const previousBlock = blockchain[i - 1];
+const chainIsValid = (blockchainArray: BlockchainArray): boolean => {
+  for (let i = 1; i < blockchainArray.length; i++) {
+    const currentBlock = blockchainArray[i];
+    const previousBlock = blockchainArray[i - 1];
 
     if (currentBlock.previousHash !== previousBlock.hash) return false;
     if (

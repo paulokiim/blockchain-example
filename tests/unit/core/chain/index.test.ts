@@ -69,14 +69,15 @@ describe('Testing index.ts functions', () => {
 
   describe('Testing chainIsValid()', () => {
     it('Should get a valid chain returning true', () => {
-      const validChain = blockchain.chainIsValid();
+      const validChain = blockchain.chainIsValid(mockedBlockchain);
       expect(validChain).toEqual(true);
     });
     it('Should get invalid blockchain returning false', () => {
       mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
       mockBlockCreateBlock.mockReturnValue(mockedBlock);
       blockchain.addNewBlock(mockedInvalidBlock.data);
-      const invalidChain = blockchain.chainIsValid();
+      const invalidBlockchain = blockchain.getBlockchain();
+      const invalidChain = blockchain.chainIsValid(invalidBlockchain);
       expect(invalidChain).toEqual(false);
     });
 
@@ -85,7 +86,8 @@ describe('Testing index.ts functions', () => {
       mockBlockCreateBlock.mockReturnValue(mockedBlock);
       mockBlockCalculateHash.mockReturnValue('');
       blockchain.addNewBlock(mockedInvalidBlock.data);
-      const invalidChain = blockchain.chainIsValid();
+      const invalidBlockchain = blockchain.getBlockchain();
+      const invalidChain = blockchain.chainIsValid(invalidBlockchain);
       expect(invalidChain).toEqual(false);
     });
   });

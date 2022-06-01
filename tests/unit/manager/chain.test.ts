@@ -57,4 +57,12 @@ describe('Testing chain.js from manager', () => {
       expect(newBlockchain).toEqual(mockedBlockchain);
     });
   });
+
+  describe('Testing isChainValid()', () => {
+    it.each([[true], [false]])('Should return a valid blockchain', (result) => {
+      jest.spyOn(blockchain, 'chainIsValid').mockReturnValue(result);
+      const isValid = chainManager.isChainValid(mockedBlockchain);
+      expect(isValid).toEqual(result);
+    });
+  });
 });
