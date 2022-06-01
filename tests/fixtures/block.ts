@@ -32,6 +32,7 @@ const mockAddBlockParams: AddBlockParams = {
     filename: 'fake',
     url: 'fake',
   },
+  timestamp: mockedTimestamp,
 };
 
 const mockGetExamsParams: GetExamsParams = {

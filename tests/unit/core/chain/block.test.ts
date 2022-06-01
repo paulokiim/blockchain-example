@@ -31,9 +31,11 @@ describe('## Testing block.ts functions', () => {
       .mockReturnValue(mockedBlockHash);
 
     it('Should return a new Block', () => {
+      const timestamp = Date.now();
       const block = blockFunctions.createBlock({
         data: mockedBlock.data,
         previousHash: mockedBlock.previousHash,
+        timestamp,
       });
       expect(block.data).toEqual(mockedBlock.data);
       expect(block.hash).toEqual(mockedBlockHash);

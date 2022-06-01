@@ -14,6 +14,7 @@ interface Block {
 interface NewBlockDTO {
   data: BlockData;
   previousHash: string;
+  timestamp: number;
 }
 
 interface CalculateHashDTO {
@@ -26,6 +27,7 @@ interface BlockchainArray extends Array<Block> {}
 
 interface AddBlockParams {
   data: BlockData;
+  timestamp: number;
 }
 
 interface GetExamsParams {

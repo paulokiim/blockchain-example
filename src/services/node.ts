@@ -33,13 +33,17 @@ const messageHandler = ({ ws, sockets, data }: MessageHandlerDTO) => {
       const isValid = isBlockchainsEqual(message.data.blockchain);
       writeMessage(ws, {
         type: MSG_TYPES.CHAIN_VALIDATION,
-        data: { isValid, block: message.data.block },
+        data: {
+          isValid,
+          block: message.data.block,
+          timestamp: message.data.timestamp,
+        },
       });
       break;
     case MSG_TYPES.ADD_BLOCK:
       writeMessage(ws, {
         type: MSG_TYPES.GET_BLOCKCHAIN,
-        data: { block: message.data.block },
+        data: { block: message.data.block, timestamp: message.data.timestamp },
       });
       break;
     case MSG_TYPES.GET_BLOCKCHAIN:
@@ -48,31 +52,42 @@ const messageHandler = ({ ws, sockets, data }: MessageHandlerDTO) => {
         data: {
           blockchain: chainManager.getBlockchain(),
           block: message.data.block,
+          timestamp: message.data.timestamp,
         },
       });
       break;
     case MSG_TYPES.CHAIN_VALIDATION:
       if (message.data.isValid) {
         const block: Block = message.data.block;
-        chainManager.addBlock({ data: block.data });
+        chainManager.addBlock({
+          data: block.data,
+          timestamp: message.data.timestamp,
+        });
         writeMessage(ws, {
           type: MSG_TYPES.COMMIT_BLOCK,
           data: {
             block: message.data.block,
+            timestamp: message.data.timestamp,
           },
         });
       } else
         writeMessage(ws, {
           type: MSG_TYPES.REJECT_BLOCK,
-          data: { block: message.data.block },
+          data: {
+            block: message.data.block,
+            timestamp: message.data.timestamp,
+          },
         });
       break;
     case MSG_TYPES.COMMIT_BLOCK:
       const block: Block = message.data.block;
-      chainManager.addBlock({ data: block.data });
+      chainManager.addBlock({
+        data: block.data,
+        timestamp: message.data.timestamp,
+      });
       break;
     case MSG_TYPES.REJECT_BLOCK:
-      console.log('Bloco rejeitado');
+      console.log('Bloco rejeitado em ', message.data.timestamp);
       break;
   }
 };

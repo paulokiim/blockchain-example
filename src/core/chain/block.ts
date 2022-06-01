@@ -9,8 +9,7 @@ const calculateHash = ({
   return createHash(blockString);
 };
 
-const createBlock = ({ data, previousHash }: NewBlockDTO): Block => {
-  const timestamp = Date.now();
+const createBlock = ({ data, previousHash, timestamp }: NewBlockDTO): Block => {
   return {
     timestamp,
     data,
