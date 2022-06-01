@@ -6,11 +6,6 @@ interface JSONObject {
 
 interface JSONArray extends Array<JSONValue> {}
 
-interface OnSuccessParams {
-  data: any;
-  statusCode: number;
-}
-
 interface OnErrorParams {
   error: string;
   errorDetail: string;

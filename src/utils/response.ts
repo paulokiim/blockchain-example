@@ -1,10 +1,4 @@
-const onSuccess = (params: OnSuccessParams) => {
-  const { data, statusCode } = params;
-  return {
-    data,
-    statusCode,
-  };
-};
+import { constants as HttpStatus } from 'http2';
 
 const onError = (params: OnErrorParams) => {
   const { error, errorDetail, statusCode } = params;
@@ -15,4 +9,14 @@ const onError = (params: OnErrorParams) => {
   };
 };
 
-export default { onSuccess, onError };
+const addBlock = (block: Block) => ({
+  data: block,
+  statusCode: HttpStatus.HTTP_STATUS_CREATED,
+});
+
+const getUserBlocks = (blocks: BlockchainArray) => ({
+  data: blocks,
+  statusCode: HttpStatus.HTTP_STATUS_OK,
+});
+
+export default { onError, addBlock, getUserBlocks };
