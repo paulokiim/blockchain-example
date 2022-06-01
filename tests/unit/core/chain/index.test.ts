@@ -22,6 +22,8 @@ describe('Testing index.ts functions', () => {
 
   Date.now = jest.fn(() => mockedTimestamp);
 
+  const timestamp = Date.now();
+
   describe('Testing getBlockchain()', () => {
     it('Should return the blockchain', () => {
       const blockchainArray = blockchain.getBlockchain();
@@ -62,7 +64,10 @@ describe('Testing index.ts functions', () => {
     it('Should add a new block to the blockcahin', () => {
       mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
       mockBlockCreateBlock.mockReturnValue(mockedBlock);
-      const newBlock = blockchain.addNewBlock(mockedBlock.data);
+      const newBlock = blockchain.addNewBlock({
+        data: mockedBlock.data,
+        timestamp,
+      });
       expect(newBlock).toEqual(mockedBlock);
     });
   });
@@ -75,7 +80,10 @@ describe('Testing index.ts functions', () => {
     it('Should get invalid blockchain returning false', () => {
       mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
       mockBlockCreateBlock.mockReturnValue(mockedBlock);
-      blockchain.addNewBlock(mockedInvalidBlock.data);
+      blockchain.addNewBlock({
+        data: mockedInvalidBlock.data,
+        timestamp,
+      });
       const invalidBlockchain = blockchain.getBlockchain();
       const invalidChain = blockchain.chainIsValid(invalidBlockchain);
       expect(invalidChain).toEqual(false);
@@ -85,7 +93,10 @@ describe('Testing index.ts functions', () => {
       mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
       mockBlockCreateBlock.mockReturnValue(mockedBlock);
       mockBlockCalculateHash.mockReturnValue('');
-      blockchain.addNewBlock(mockedInvalidBlock.data);
+      blockchain.addNewBlock({
+        data: mockedInvalidBlock.data,
+        timestamp,
+      });
       const invalidBlockchain = blockchain.getBlockchain();
       const invalidChain = blockchain.chainIsValid(invalidBlockchain);
       expect(invalidChain).toEqual(false);

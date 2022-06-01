@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { createHash } from '../utils/hash';
 import chainManager from '../manager/chain';
+import timestamp from '../utils/timestamp';
 
 const addBlock = (req: Request, res: Response) => {
   const file = req.file as Express.MulterS3.File;
@@ -14,6 +15,7 @@ const addBlock = (req: Request, res: Response) => {
       filename: file.key,
       url: file.location,
     },
+    timestamp: timestamp.getTimestamp(),
   };
 
   const response = chainManager.addBlock(blockData);

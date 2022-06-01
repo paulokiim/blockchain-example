@@ -15,6 +15,7 @@ import chainManager from '../../../src/manager/chain';
 describe('Testing node.ts from services', () => {
   const mockServer = new Server();
   const ws = new WebSocket('ws://localhost:3000');
+  const timestamp = Date.now();
 
   afterEach(() => {
     jest.restoreAllMocks();
@@ -88,7 +89,7 @@ describe('Testing node.ts from services', () => {
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.GET_BLOCKCHAIN_RESPONSE,
-            data: { mockedBlockchain },
+            data: { mockedBlockchain, timestamp },
           },
           signature: MSG_TYPE.GET_BLOCKCHAIN_RESPONSE,
         }),
@@ -102,7 +103,10 @@ describe('Testing node.ts from services', () => {
         ws,
         sockets: [ws],
         data: JSON.stringify({
-          message: { type: MSG_TYPE.ADD_BLOCK, data: { block: mockedBlock } },
+          message: {
+            type: MSG_TYPE.ADD_BLOCK,
+            data: { block: mockedBlock, timestamp },
+          },
           signature: MSG_TYPE.ADD_BLOCK,
         }),
       });
@@ -116,7 +120,7 @@ describe('Testing node.ts from services', () => {
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.GET_BLOCKCHAIN,
-            data: { block: mockedBlock },
+            data: { block: mockedBlock, timestamp },
           },
           signature: MSG_TYPE.GET_BLOCKCHAIN,
         }),
@@ -131,7 +135,7 @@ describe('Testing node.ts from services', () => {
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.COMMIT_BLOCK,
-            data: { block: mockedBlock },
+            data: { block: mockedBlock, timestamp: mockedBlock.timestamp },
           },
           signature: MSG_TYPE.COMMIT_BLOCK,
         }),
@@ -150,6 +154,7 @@ describe('Testing node.ts from services', () => {
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.REJECT_BLOCK,
+            data: { block: mockedBlock, timestamp },
           },
           signature: MSG_TYPE.REJECT_BLOCK,
         }),
@@ -169,7 +174,7 @@ describe('Testing node.ts from services', () => {
           data: JSON.stringify({
             message: {
               type: MSG_TYPE.CHAIN_VALIDATION,
-              data: { isValid, block: mockedBlock },
+              data: { isValid, block: mockedBlock, timestamp },
             },
             signature: `${MSG_TYPE.CHAIN_VALIDATION}${isValid}`,
           }),

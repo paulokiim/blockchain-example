@@ -1,4 +1,5 @@
 import blockFunctions from './block';
+import timestamp from '../../utils/timestamp';
 
 const blockchain: BlockchainArray = [];
 
@@ -14,6 +15,7 @@ const createGenesisBlock = (): Block => {
   const block = blockFunctions.createBlock({
     data: { accountHash: '', filename: '', url: '' },
     previousHash: '0',
+    timestamp: timestamp.getTimestamp(),
   });
   return block;
 };
@@ -29,11 +31,12 @@ const getLastestBlock = (): Block => {
   return latestBlock;
 };
 
-const addNewBlock = (data: BlockData): Block => {
+const addNewBlock = ({ data, timestamp }: AddBlockParams): Block => {
   const latestBlock = getLastestBlock();
   const newBlock = blockFunctions.createBlock({
     data,
     previousHash: latestBlock.hash,
+    timestamp,
   });
   blockchain.push(newBlock);
   return newBlock;
