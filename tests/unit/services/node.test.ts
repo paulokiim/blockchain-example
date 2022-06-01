@@ -66,7 +66,6 @@ describe('Testing node.ts from services', () => {
     it(`Should handle ${MSG_TYPE.NEW_NODE} type message`, () => {
       nodeService.messageHandler({
         ws,
-        sockets: [ws],
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.NEW_NODE,
@@ -85,7 +84,6 @@ describe('Testing node.ts from services', () => {
       const mockWsSend = jest.spyOn(ws, 'send').mockImplementation(() => {});
       nodeService.messageHandler({
         ws,
-        sockets: [ws],
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.GET_BLOCKCHAIN_RESPONSE,
@@ -101,7 +99,6 @@ describe('Testing node.ts from services', () => {
       const mockWsSend = jest.spyOn(ws, 'send').mockImplementation(() => {});
       nodeService.messageHandler({
         ws,
-        sockets: [ws],
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.ADD_BLOCK,
@@ -116,7 +113,6 @@ describe('Testing node.ts from services', () => {
       const mockWsSend = jest.spyOn(ws, 'send').mockImplementation(() => {});
       nodeService.messageHandler({
         ws,
-        sockets: [ws],
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.GET_BLOCKCHAIN,
@@ -131,7 +127,6 @@ describe('Testing node.ts from services', () => {
       Date.now = jest.fn(() => mockedTimestamp);
       nodeService.messageHandler({
         ws,
-        sockets: [ws],
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.COMMIT_BLOCK,
@@ -150,7 +145,6 @@ describe('Testing node.ts from services', () => {
         .mockImplementation(() => {});
       nodeService.messageHandler({
         ws,
-        sockets: [ws],
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.REJECT_BLOCK,
@@ -170,7 +164,6 @@ describe('Testing node.ts from services', () => {
         const mockWsSend = jest.spyOn(ws, 'send').mockImplementation(() => {});
         nodeService.messageHandler({
           ws,
-          sockets: [ws],
           data: JSON.stringify({
             message: {
               type: MSG_TYPE.CHAIN_VALIDATION,
@@ -190,7 +183,6 @@ describe('Testing node.ts from services', () => {
     it(`Should find signature and not process`, () => {
       nodeService.messageHandler({
         ws,
-        sockets: [ws],
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.REJECT_BLOCK,
@@ -204,7 +196,7 @@ describe('Testing node.ts from services', () => {
   describe('Testing broadcast()', () => {
     it('Should broadcast message to all sockets', () => {
       const mockWsSend = jest.spyOn(ws, 'send').mockImplementation(() => {});
-      nodeService.broadcast([ws], { type: 'fake', data: { fake: 'fake' } });
+      nodeService.broadcast({ type: 'fake', data: { fake: 'fake' } });
       expect(ws.on).toBeCalled;
       expect(mockWsSend).toBeCalled;
     });

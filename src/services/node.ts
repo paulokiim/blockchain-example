@@ -4,6 +4,7 @@ import config from '../core/config';
 import chainManager from '../manager/chain';
 import MSG_TYPES from '../enums/node-message';
 import { createHash } from '../utils/hash';
+import { sockets } from '../core/chain/node';
 
 const receivedSignatures: Array<string> = [];
 
@@ -17,7 +18,7 @@ export const isBlockchainsEqual = (peerBlockchain: BlockchainArray) => {
   return true;
 };
 
-const messageHandler = ({ ws, sockets, data }: MessageHandlerDTO) => {
+const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
   const { message, signature } = JSON.parse(data);
   // TODO: Limpar essas signatures depois de um tempo
   if (receivedSignatures.includes(signature)) return;
@@ -98,7 +99,7 @@ const writeMessage = (ws: WebSocket.WebSocket, message: SocketMessage) => {
   ws.send(JSON.stringify(payload));
 };
 
-const broadcast = (sockets: SocketsArray, message: SocketMessage) => {
+const broadcast = (message: SocketMessage) => {
   for (let i = 0; i < sockets.length; i++) {
     writeMessage(sockets[i], message);
   }

@@ -12,6 +12,5 @@ interface ConnectToPeerDTO {
 
 interface MessageHandlerDTO {
   ws: WebSocket.WebSocket;
-  sockets: SocketsArray;
   data: string;
 }

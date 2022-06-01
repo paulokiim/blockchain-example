@@ -27,9 +27,7 @@ const initConnection = (ws: WebSocket.WebSocket) => {
 };
 
 export const initMessageHandler = (ws: WebSocket.WebSocket) => {
-  ws.on('message', (data: string) =>
-    nodeService.messageHandler({ ws, sockets, data })
-  );
+  ws.on('message', (data: string) => nodeService.messageHandler({ ws, data }));
 };
 
 export const closeConnection = (ws: WebSocket.WebSocket) => {
