@@ -1,18 +1,28 @@
+import { constants as HttpStatus } from 'http2';
+
 import responseTransformer from '../../../src/utils/response';
 
-describe('## Testing utils/response.ts', () => {
-  describe('## Testing onSuccess()', () => {
-    it('Should return success data format', () => {
-      const params: OnSuccessParams = {
-        data: {},
-        statusCode: 200,
-      };
-      const response = responseTransformer.onSuccess(params);
-      expect(response).toEqual(params);
+import { mockedBlock, mockedBlockchain } from '../../fixtures/block';
+
+describe('Testing utils/response.ts', () => {
+  describe('Testing addBlock()', () => {
+    it('Should return addBlock data format', () => {
+      const response = responseTransformer.addBlock(mockedBlock);
+      expect(response.data).toEqual(mockedBlock);
+      expect(response.statusCode).toEqual(HttpStatus.HTTP_STATUS_CREATED);
     });
   });
-  describe('## Testing onError()', () => {
-    it('Should return success data format', () => {
+
+  describe('Testing getUserBlocks()', () => {
+    it('Should return getUserBlocks data format', () => {
+      const response = responseTransformer.getUserBlocks(mockedBlockchain);
+      expect(response.data).toEqual(mockedBlockchain);
+      expect(response.statusCode).toEqual(HttpStatus.HTTP_STATUS_OK);
+    });
+  });
+
+  describe('Testing onError()', () => {
+    it('Should return getUserBlocks data format', () => {
       const params: OnErrorParams = {
         error: '',
         errorDetail: '',

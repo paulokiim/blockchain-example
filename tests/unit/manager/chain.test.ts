@@ -19,8 +19,7 @@ describe('Testing chain.js from manager', () => {
     it('Should successfully add a block', () => {
       jest.spyOn(blockchain, 'addNewBlock').mockReturnValue(mockedBlock);
       const response = chainManager.addBlock(mockAddBlockParams);
-      expect(response.data).toEqual(mockedBlock);
-      expect(response.statusCode).toEqual(HttpStatus.HTTP_STATUS_CREATED);
+      expect(response).toEqual(mockedBlock);
     });
   });
 
@@ -28,8 +27,7 @@ describe('Testing chain.js from manager', () => {
     it('Should successfully get user blocks', () => {
       jest.spyOn(blockchain, 'getUserBlocks').mockReturnValue([mockedBlock]);
       const response = chainManager.getUserBlocks(mockGetExamsParams);
-      expect(response.data).toEqual([mockedBlock]);
-      expect(response.statusCode).toEqual(HttpStatus.HTTP_STATUS_OK);
+      expect(response).toEqual([mockedBlock]);
     });
   });
 
