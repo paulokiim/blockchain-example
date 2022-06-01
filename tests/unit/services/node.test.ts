@@ -168,6 +168,9 @@ describe('Testing node.ts from services', () => {
     it.each([[true], [false]])(
       `Should handle ${MSG_TYPE.CHAIN_VALIDATION} type message with isValid equal to %p`,
       (isValid) => {
+        const mockedAddBlock = jest
+          .spyOn(chainManager, 'addBlock')
+          .mockImplementation();
         const mockWsSend = jest.spyOn(ws, 'send').mockImplementation(() => {});
         nodeService.messageHandler({
           ws,
@@ -181,6 +184,11 @@ describe('Testing node.ts from services', () => {
           }),
         });
         expect(mockWsSend).toBeCalled;
+        if (isValid) {
+          expect(mockedAddBlock).toBeCalled;
+        } else {
+          expect(mockedAddBlock).not.toBeCalled;
+        }
       }
     );
     it(`Should find signature and not process`, () => {

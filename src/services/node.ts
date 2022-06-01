@@ -54,14 +54,16 @@ const messageHandler = ({ ws, sockets, data }: MessageHandlerDTO) => {
       });
       break;
     case MSG_TYPES.CHAIN_VALIDATION:
-      if (message.data.isValid)
+      if (message.data.isValid) {
+        const block: Block = message.data.block;
+        chainManager.addBlock({ data: block.data });
         writeMessage(ws, {
           type: MSG_TYPES.COMMIT_BLOCK,
           data: {
             block: message.data.block,
           },
         });
-      else
+      } else
         writeMessage(ws, {
           type: MSG_TYPES.REJECT_BLOCK,
           data: { block: message.data.block },
