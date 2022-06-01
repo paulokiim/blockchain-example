@@ -3,6 +3,7 @@ import WebSocket from 'ws';
 
 import config from '../config';
 import nodeService from '../../services/node';
+import chainManager from '../../manager/chain';
 
 import MSG_TYPES from '../../enums/node-message';
 
@@ -21,6 +22,7 @@ const initConnection = (ws: WebSocket.WebSocket) => {
   initMessageHandler(ws);
   nodeService.writeMessage(ws, {
     type: MSG_TYPES.NEW_NODE,
+    data: { blockchain: chainManager.getBlockchain() },
   });
 };
 

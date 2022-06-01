@@ -24,16 +24,6 @@ describe('Testing node.ts from services', () => {
     mockServer.close();
   });
 
-  describe('Testing replaceBlockchain()', () => {
-    it('Should replace blockchain', () => {
-      const mockGetBlockchain = jest
-        .spyOn(chainManager, 'getBlockchain')
-        .mockReturnValue(mockedBlockchain);
-      internalFunctions.replaceBlockchain();
-      expect(mockGetBlockchain).toBeCalled;
-    });
-  });
-
   describe('Testing isBlockchainsEqual()', () => {
     const peerBlockchain = [mockedGenesisBlock, mockedBlock];
     it('Should have equal blockchains', () => {
@@ -73,18 +63,19 @@ describe('Testing node.ts from services', () => {
 
   describe('Testing messageHandler()', () => {
     it(`Should handle ${MSG_TYPE.NEW_NODE} type message`, () => {
-      const mockedreplaceBlockchain = jest
-        .spyOn(internalFunctions, 'replaceBlockchain')
-        .mockReturnValue(mockedBlockchain);
       nodeService.messageHandler({
         ws,
         sockets: [ws],
         data: JSON.stringify({
-          message: { type: MSG_TYPE.NEW_NODE },
+          message: {
+            type: MSG_TYPE.NEW_NODE,
+            data: { blockchain: mockedBlockchain },
+          },
           signature: MSG_TYPE.NEW_NODE,
         }),
       });
-      expect(mockedreplaceBlockchain).toBeCalled;
+      const blockchain = chainManager.getBlockchain();
+      expect(blockchain).toEqual(mockedBlockchain);
     });
     it(`Should handle ${MSG_TYPE.GET_BLOCKCHAIN_RESPONSE} type message`, () => {
       const mockedisBlockchainsEqual = jest
@@ -145,9 +136,9 @@ describe('Testing node.ts from services', () => {
           signature: MSG_TYPE.COMMIT_BLOCK,
         }),
       });
-      const newBlockchain = chainManager.getLatestBlock();
-      expect(newBlockchain.previousHash).toEqual(mockedBlock.hash);
-      expect(newBlockchain.timestamp).toEqual(mockedBlock.timestamp);
+      const newBlock = chainManager.getLatestBlock();
+      expect(newBlock.previousHash).toEqual(mockedBlock.hash);
+      expect(newBlock.timestamp).toEqual(mockedBlock.timestamp);
     });
     it(`Should handle ${MSG_TYPE.REJECT_BLOCK} type message`, () => {
       const mockConsoleLog = jest

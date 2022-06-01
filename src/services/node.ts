@@ -7,12 +7,6 @@ import { createHash } from '../utils/hash';
 
 const receivedSignatures: Array<string> = [];
 
-export const replaceBlockchain = () => {
-  const blockchain = chainManager.getBlockchain();
-  const replacedBlockchain = chainManager.replaceBlockchain(blockchain);
-  return replacedBlockchain;
-};
-
 export const isBlockchainsEqual = (peerBlockchain: BlockchainArray) => {
   const blockchain = chainManager.getBlockchain();
   const latestBlock = chainManager.getLatestBlock();
@@ -25,11 +19,13 @@ export const isBlockchainsEqual = (peerBlockchain: BlockchainArray) => {
 
 const messageHandler = ({ ws, sockets, data }: MessageHandlerDTO) => {
   const { message, signature } = JSON.parse(data);
+  // TODO: Limpar essas signatures depois de um tempo
   if (receivedSignatures.includes(signature)) return;
   receivedSignatures.push(signature);
   switch (message.type) {
     case MSG_TYPES.NEW_NODE:
-      replaceBlockchain();
+      const blockchain: BlockchainArray = message.data.blockchain;
+      chainManager.replaceBlockchain(blockchain);
       break;
     case MSG_TYPES.GET_BLOCKCHAIN_RESPONSE:
       const isValid = isBlockchainsEqual(message.data.blockchain);
