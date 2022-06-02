@@ -7,8 +7,8 @@ import { mockedBlock, mockedBlockchain } from '../../fixtures/block';
 describe('Testing utils/response.ts', () => {
   describe('Testing addBlock()', () => {
     it('Should return addBlock data format', () => {
-      const response = responseTransformer.addBlock(mockedBlock);
-      expect(response.data).toEqual(mockedBlock);
+      const response = responseTransformer.addBlock({ processing: true });
+      expect(response.data).toEqual({ processing: true });
       expect(response.statusCode).toEqual(HttpStatus.HTTP_STATUS_CREATED);
     });
   });

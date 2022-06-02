@@ -18,7 +18,7 @@ describe('Testing index.ts functions', () => {
 
   const mockBlockCreateBlock = jest.spyOn(block, 'createBlock');
   const mockBlockCalculateHash = jest.spyOn(block, 'calculateHash');
-  const mockGetLatestBlock = jest.spyOn(blockchain, 'getLastestBlock');
+  const mockGetLatestBlock = jest.spyOn(blockchain, 'getLatestBlock');
 
   Date.now = jest.fn(() => mockedTimestamp);
 
@@ -55,7 +55,7 @@ describe('Testing index.ts functions', () => {
 
   describe('Testing getLastestBlock()', () => {
     it('Should get the last block of the blockchain', () => {
-      const lastBlock = blockchain.getLastestBlock();
+      const lastBlock = blockchain.getLatestBlock();
       expect(lastBlock).toEqual(mockedGenesisBlock);
     });
   });
@@ -64,10 +64,7 @@ describe('Testing index.ts functions', () => {
     it('Should add a new block to the blockcahin', () => {
       mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
       mockBlockCreateBlock.mockReturnValue(mockedBlock);
-      const newBlock = blockchain.addNewBlock({
-        data: mockedBlock.data,
-        timestamp,
-      });
+      const newBlock = blockchain.addNewBlock(mockedBlock);
       expect(newBlock).toEqual(mockedBlock);
     });
   });
@@ -80,10 +77,7 @@ describe('Testing index.ts functions', () => {
     it('Should get invalid blockchain returning false', () => {
       mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
       mockBlockCreateBlock.mockReturnValue(mockedBlock);
-      blockchain.addNewBlock({
-        data: mockedInvalidBlock.data,
-        timestamp,
-      });
+      blockchain.addNewBlock(mockedInvalidBlock);
       const invalidBlockchain = blockchain.getBlockchain();
       const invalidChain = blockchain.chainIsValid(invalidBlockchain);
       expect(invalidChain).toEqual(false);
@@ -93,10 +87,7 @@ describe('Testing index.ts functions', () => {
       mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
       mockBlockCreateBlock.mockReturnValue(mockedBlock);
       mockBlockCalculateHash.mockReturnValue('');
-      blockchain.addNewBlock({
-        data: mockedInvalidBlock.data,
-        timestamp,
-      });
+      blockchain.addNewBlock(mockedInvalidBlock);
       const invalidBlockchain = blockchain.getBlockchain();
       const invalidChain = blockchain.chainIsValid(invalidBlockchain);
       expect(invalidChain).toEqual(false);

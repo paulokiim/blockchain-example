@@ -9,8 +9,8 @@ const onError = (params: OnErrorParams) => {
   };
 };
 
-const addBlock = (block: Block) => ({
-  data: block,
+const addBlock = (processing: JSONObject) => ({
+  data: processing,
   statusCode: HttpStatus.HTTP_STATUS_CREATED,
 });
 

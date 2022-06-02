@@ -1,7 +1,6 @@
-import { constants as HttpStatus } from 'http2';
-
 import blockchain from '../../../src/core/chain';
 import chainManager from '../../../src/manager/chain';
+import nodeService from '../../../src/services/node';
 
 import {
   mockedBlock,
@@ -17,9 +16,11 @@ describe('Testing chain.js from manager', () => {
 
   describe('Testing addBlock()', () => {
     it('Should successfully add a block', () => {
+      jest.spyOn(blockchain, 'getLatestBlock').mockReturnValue(mockedBlock);
+      jest.spyOn(nodeService, 'broadcast').mockImplementation(() => {});
       jest.spyOn(blockchain, 'addNewBlock').mockReturnValue(mockedBlock);
       const response = chainManager.addBlock(mockAddBlockParams);
-      expect(response).toEqual(mockedBlock);
+      expect(response).toEqual({ processing: true });
     });
   });
 
@@ -40,7 +41,7 @@ describe('Testing chain.js from manager', () => {
 
   describe('Testing getLatestBlock()', () => {
     it('Should successfully get the blockchain', () => {
-      jest.spyOn(blockchain, 'getLastestBlock').mockReturnValue(mockedBlock);
+      jest.spyOn(blockchain, 'getLatestBlock').mockReturnValue(mockedBlock);
       const block = chainManager.getLatestBlock();
       expect(block).toEqual(mockedBlock);
     });
@@ -61,6 +62,13 @@ describe('Testing chain.js from manager', () => {
       jest.spyOn(blockchain, 'chainIsValid').mockReturnValue(result);
       const isValid = chainManager.isChainValid(mockedBlockchain);
       expect(isValid).toEqual(result);
+    });
+  });
+
+  describe('Testing addNewBlock()', () => {
+    it('Should successfully add a new block', () => {
+      const block = chainManager.addNewBlock(mockedBlock);
+      expect(block).toEqual(mockedBlock);
     });
   });
 });
