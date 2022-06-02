@@ -58,10 +58,7 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
     case MSG_TYPES.CHAIN_VALIDATION:
       if (message.data.isValid) {
         const block: Block = message.data.block;
-        chainManager.addBlock({
-          data: block.data,
-          timestamp: message.data.timestamp,
-        });
+        chainManager.addNewBlock(block);
         writeMessage(ws, {
           type: MSG_TYPES.COMMIT_BLOCK,
           data: {
@@ -80,10 +77,7 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
       break;
     case MSG_TYPES.COMMIT_BLOCK:
       const block: Block = message.data.block;
-      chainManager.addBlock({
-        data: block.data,
-        timestamp: message.data.timestamp,
-      });
+      chainManager.addNewBlock(block);
       break;
     case MSG_TYPES.REJECT_BLOCK:
       console.log('Bloco rejeitado em ', message.data.timestamp);

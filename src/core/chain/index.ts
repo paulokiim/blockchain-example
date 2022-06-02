@@ -26,20 +26,14 @@ const createBlockchain = () => {
   return blockchain;
 };
 
-const getLastestBlock = (): Block => {
+const getLatestBlock = (): Block => {
   const latestBlock = blockchain[blockchain.length - 1];
   return latestBlock;
 };
 
-const addNewBlock = ({ data, timestamp }: AddBlockParams): Block => {
-  const latestBlock = getLastestBlock();
-  const newBlock = blockFunctions.createBlock({
-    data,
-    previousHash: latestBlock.hash,
-    timestamp,
-  });
-  blockchain.push(newBlock);
-  return newBlock;
+const addNewBlock = (block: Block): Block => {
+  blockchain.push(block);
+  return block;
 };
 
 const chainIsValid = (blockchainArray: BlockchainArray): boolean => {
@@ -75,7 +69,7 @@ export default {
   createBlockchain,
   addNewBlock,
   chainIsValid,
-  getLastestBlock,
+  getLatestBlock,
   getUserBlocks,
   getBlockchain,
   replaceBlockchain,
