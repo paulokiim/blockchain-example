@@ -10,6 +10,7 @@ import {
 
 import MSG_TYPE from '../../../src/enums/node-message';
 import nodeService, * as internalFunctions from '../../../src/services/node';
+import { sockets } from '../../../src/core/chain/node';
 import chainManager from '../../../src/manager/chain';
 
 describe('Testing node.ts from services', () => {
@@ -125,12 +126,17 @@ describe('Testing node.ts from services', () => {
     });
     it(`Should handle ${MSG_TYPE.COMMIT_BLOCK} type message`, () => {
       Date.now = jest.fn(() => mockedTimestamp);
+      const latestBlock = chainManager.getLatestBlock();
+      const blockToAdd = {
+        ...mockedBlock,
+        previousHash: latestBlock.hash,
+      };
       nodeService.messageHandler({
         ws,
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.COMMIT_BLOCK,
-            data: { block: mockedBlock, timestamp: mockedBlock.timestamp },
+            data: { block: blockToAdd, timestamp: mockedBlock.timestamp },
           },
           signature: MSG_TYPE.COMMIT_BLOCK,
         }),
@@ -195,6 +201,7 @@ describe('Testing node.ts from services', () => {
 
   describe('Testing broadcast()', () => {
     it('Should broadcast message to all sockets', () => {
+      sockets.push(ws);
       const mockWsSend = jest.spyOn(ws, 'send').mockImplementation(() => {});
       nodeService.broadcast({ type: 'fake', data: { fake: 'fake' } });
       expect(ws.on).toBeCalled;
