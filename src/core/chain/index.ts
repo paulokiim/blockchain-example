@@ -1,5 +1,4 @@
 import blockFunctions from './block';
-import timestamp from '../../utils/timestamp';
 
 const blockchain: BlockchainArray = [];
 
