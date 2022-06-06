@@ -15,7 +15,7 @@ const createGenesisBlock = (): Block => {
   const block = blockFunctions.createBlock({
     data: { accountHash: '', filename: '', url: '' },
     previousHash: '0',
-    timestamp: timestamp.getTimestamp(),
+    timestamp: 1,
   });
   return block;
 };
