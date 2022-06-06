@@ -12,7 +12,10 @@ const addBlock = (params: AddBlockParams) => {
     previousHash: latestBlock.hash,
     timestamp,
   });
-  nodeService.broadcast({ type: MSG_TYPES.ADD_BLOCK, data: buildedBlock });
+  nodeService.broadcast({
+    type: MSG_TYPES.ADD_BLOCK,
+    data: { block: buildedBlock, timestamp },
+  });
   return {
     processing: true,
   };

@@ -25,10 +25,10 @@ const addBlock = (req: Request, res: Response) => {
 };
 
 const getUserBlocks = (req: Request, res: Response) => {
-  const params = req.params;
+  const body = req.body;
 
   const getExamsParams: GetExamsParams = {
-    accountHash: createHash(params.userUid),
+    accountHash: createHash(body.uid),
   };
   const blocks = chainManager.getUserBlocks(getExamsParams);
   const response = responseTransformer.getUserBlocks(blocks);

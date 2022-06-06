@@ -80,7 +80,8 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
       chainManager.addNewBlock(block);
       break;
     case MSG_TYPES.REJECT_BLOCK:
-      console.log('Bloco rejeitado em ', message.data.timestamp);
+      console.log('Bloco rejeitado: ', message.data.block);
+      console.log('Bloco rejeitado em: ', message.data.timestamp);
       break;
   }
 };
