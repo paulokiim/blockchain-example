@@ -33,6 +33,8 @@ export const initMessageHandler = (ws: WebSocket.WebSocket) => {
 
 export const closeConnection = (ws: WebSocket.WebSocket) => {
   sockets.splice(sockets.indexOf(ws), 1);
+  ws.terminate();
+  console.log('Connection closed');
 };
 
 export const initErrorHandler = (ws: WebSocket.WebSocket) => {
