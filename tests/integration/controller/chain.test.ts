@@ -27,7 +27,7 @@ describe('INTEGRATION: Testing chain routes', () => {
     it('Should get all blocks from a user', async () => {
       const token = auth.createJWTToken({ uid: 'fake' });
       const response = await supertest(await app)
-        .get('/chain/blocks/fake')
+        .get('/chain/blocks')
         .set('Authorization', token);
 
       expect(response.status).toEqual(HttpStatus.HTTP_STATUS_OK);

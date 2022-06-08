@@ -1,12 +1,12 @@
 const mockedGenesisHash =
-  '8a87e70f2f79437eb6f6b1f29676b578be37c903daa21aaff04f3feba626c28e';
+  '411965bcd4386d243a8008282dfba5c2e3bbead163bf0cb2311056a2a45e308c';
 const mockedBlockHash =
-  '82707a25217e4f2b703f0e1365b42dffe4a6f0b2e402ef30463b093ba7add707';
+  '856b9d38c945494f2f1fe857d20a1c35aa7f913ac0922ac99d08e25f332cc06c';
 
 const mockedTimestamp = 1649698218910;
 
 const mockedGenesisBlock: Block = {
-  timestamp: mockedTimestamp,
+  timestamp: 1,
   hash: mockedGenesisHash,
   previousHash: '0',
   data: { accountHash: '', filename: '', url: '' },

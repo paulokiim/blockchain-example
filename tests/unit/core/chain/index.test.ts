@@ -38,7 +38,7 @@ describe('Testing index.ts functions', () => {
         mockedGenesisBlock.previousHash
       );
       expect(genesisBlock.hash).toEqual(mockedGenesisHash);
-      expect(genesisBlock.timestamp).toEqual(mockedTimestamp);
+      expect(genesisBlock.timestamp).toEqual(mockedGenesisBlock.timestamp);
     });
   });
 
@@ -49,7 +49,7 @@ describe('Testing index.ts functions', () => {
       expect(newBlockchain).toBeInstanceOf(Array);
       expect(newBlockchain[0].previousHash).toEqual('0');
       expect(newBlockchain[0].hash).toEqual(mockedGenesisHash);
-      expect(newBlockchain[0].timestamp).toEqual(mockedTimestamp);
+      expect(newBlockchain[0].timestamp).toEqual(mockedGenesisBlock.timestamp);
     });
   });
 
