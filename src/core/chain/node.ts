@@ -17,7 +17,6 @@ const initPeerToPeerServer = (server: Server) => {
 };
 
 const initConnection = (ws: WebSocket.WebSocket) => {
-  console.log('Peer connected');
   sockets.push(ws);
   initErrorHandler(ws);
   initMessageHandler(ws);
@@ -42,7 +41,7 @@ export const closeConnection = (ws: WebSocket.WebSocket) => {
   if (serverUrl) reconnectNode(serverUrl);
   ws.removeAllListeners();
   ws.terminate();
-  console.log('Attempting reconnect');
+  console.log('Reconnecting...');
 };
 
 export const initErrorHandler = (ws: WebSocket.WebSocket) => {
