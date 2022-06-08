@@ -32,8 +32,14 @@ export const initMessageHandler = (ws: WebSocket.WebSocket) => {
   ws.on('message', (data: string) => nodeService.messageHandler({ ws, data }));
 };
 
+export const reconnectNode = (url: string) => {
+  const socket = new WebSocket(url);
+  socket.on('open', () => initConnection(socket));
+};
+
 export const closeConnection = (ws: WebSocket.WebSocket) => {
   sockets.splice(sockets.indexOf(ws), 1);
+  console.log(ws.url);
   ws.terminate();
   console.log('Connection closed');
 };
