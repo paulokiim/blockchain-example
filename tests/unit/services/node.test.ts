@@ -88,7 +88,7 @@ describe('Testing node.ts from services', () => {
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.GET_BLOCKCHAIN_RESPONSE,
-            data: { mockedBlockchain, timestamp },
+            data: { mockedBlockchain },
           },
           signature: MSG_TYPE.GET_BLOCKCHAIN_RESPONSE,
         }),
@@ -103,7 +103,7 @@ describe('Testing node.ts from services', () => {
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.ADD_BLOCK,
-            data: { block: mockedBlock, timestamp },
+            data: { block: mockedBlock },
           },
           signature: MSG_TYPE.ADD_BLOCK,
         }),
@@ -117,7 +117,7 @@ describe('Testing node.ts from services', () => {
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.GET_BLOCKCHAIN,
-            data: { block: mockedBlock, timestamp },
+            data: { block: mockedBlock },
           },
           signature: MSG_TYPE.GET_BLOCKCHAIN,
         }),
@@ -136,7 +136,7 @@ describe('Testing node.ts from services', () => {
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.COMMIT_BLOCK,
-            data: { block: blockToAdd, timestamp: mockedBlock.timestamp },
+            data: { block: blockToAdd },
           },
           signature: MSG_TYPE.COMMIT_BLOCK,
         }),
@@ -154,7 +154,7 @@ describe('Testing node.ts from services', () => {
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.REJECT_BLOCK,
-            data: { block: mockedBlock, timestamp },
+            data: { block: mockedBlock },
           },
           signature: MSG_TYPE.REJECT_BLOCK,
         }),
@@ -173,7 +173,7 @@ describe('Testing node.ts from services', () => {
           data: JSON.stringify({
             message: {
               type: MSG_TYPE.CHAIN_VALIDATION,
-              data: { isValid, block: mockedBlock, timestamp },
+              data: { isValid, block: mockedBlock },
             },
             signature: `${MSG_TYPE.CHAIN_VALIDATION}${isValid}`,
           }),

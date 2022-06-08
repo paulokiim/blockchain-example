@@ -14,7 +14,7 @@ const addBlock = (params: AddBlockParams) => {
   });
   nodeService.broadcast({
     type: MSG_TYPES.ADD_BLOCK,
-    data: { block: buildedBlock, timestamp },
+    data: { block: buildedBlock },
   });
   return {
     processing: true,

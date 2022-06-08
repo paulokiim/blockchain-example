@@ -35,14 +35,13 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
         data: {
           isValid,
           block: message.data.block,
-          timestamp: message.data.timestamp,
         },
       });
       break;
     case MSG_TYPES.ADD_BLOCK:
       writeMessage(ws, {
         type: MSG_TYPES.GET_BLOCKCHAIN,
-        data: { block: message.data.block, timestamp: message.data.timestamp },
+        data: { block: message.data.block },
       });
       break;
     case MSG_TYPES.GET_BLOCKCHAIN:
@@ -51,7 +50,6 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
         data: {
           blockchain: chainManager.getBlockchain(),
           block: message.data.block,
-          timestamp: message.data.timestamp,
         },
       });
       break;
@@ -63,7 +61,6 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
           type: MSG_TYPES.COMMIT_BLOCK,
           data: {
             block: message.data.block,
-            timestamp: message.data.timestamp,
           },
         });
       } else
@@ -71,7 +68,6 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
           type: MSG_TYPES.REJECT_BLOCK,
           data: {
             block: message.data.block,
-            timestamp: message.data.timestamp,
           },
         });
       break;
@@ -81,7 +77,6 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
       break;
     case MSG_TYPES.REJECT_BLOCK:
       console.log('Bloco rejeitado: ', message.data.block);
-      console.log('Bloco rejeitado em: ', message.data.timestamp);
       break;
   }
 };
