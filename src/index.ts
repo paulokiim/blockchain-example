@@ -20,8 +20,6 @@ const startServer = async () => {
   node.initPeerToPeerServer(expressServer);
   const socket = new WebSocket('ws://exam-blockchain-node-1.herokuapp.com');
   socket.on('open', () => node.initConnection(socket));
-  socket.on('close', () => node.closeConnection(socket));
-  socket.on('error', () => node.closeConnection(socket));
 
   return app;
 };

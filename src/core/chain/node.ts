@@ -38,9 +38,11 @@ export const reconnectNode = (url: string) => {
 
 export const closeConnection = (ws: WebSocket.WebSocket) => {
   sockets.splice(sockets.indexOf(ws), 1);
-  console.log(ws.url);
+  const serverUrl = ws.url;
+  if (serverUrl) reconnectNode(serverUrl);
+  ws.removeAllListeners();
   ws.terminate();
-  console.log('Connection closed');
+  console.log('Attempting reconnect');
 };
 
 export const initErrorHandler = (ws: WebSocket.WebSocket) => {
