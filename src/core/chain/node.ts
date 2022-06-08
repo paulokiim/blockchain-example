@@ -40,4 +40,4 @@ export const initErrorHandler = (ws: WebSocket.WebSocket) => {
   ws.on('error', () => closeConnection(ws));
 };
 
-export default { initPeerToPeerServer, initConnection };
+export default { initPeerToPeerServer, initConnection, closeConnection };
