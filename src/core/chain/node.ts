@@ -21,6 +21,7 @@ const initPeerToPeerServer = (server: Server) => {
 
 const initConnection = (ws: WebSocket.WebSocket) => {
   console.log('Peer connected!');
+  console.log(ws.url);
   sockets.push(ws);
   initErrorHandler(ws);
   initMessageHandler(ws);
