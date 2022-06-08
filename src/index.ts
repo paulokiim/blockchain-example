@@ -1,9 +1,10 @@
 import 'reflect-metadata';
+import WebSocket from 'ws';
 
 import config from './core/config';
 import server from './server';
 import chain from './core/chain';
-import node from './core/chain/node';
+import node, { sockets } from './core/chain/node';
 
 const startBlockchain = (): BlockchainArray => chain.createBlockchain();
 
@@ -17,6 +18,8 @@ const startServer = async () => {
   );
 
   node.initPeerToPeerServer(expressServer);
+  const socket = new WebSocket('ws//exam-blockchain-node-1.herokuapp.com');
+  socket.on('open', () => node.initConnection(socket));
 
   return app;
 };
