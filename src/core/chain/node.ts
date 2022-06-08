@@ -14,7 +14,7 @@ const initPeerToPeerServer = (server: Server) => {
   console.log(`Web Socket server started at port ${config.PORT}`);
   wsServer.on('connection', (ws) => {
     initConnection(ws);
-    setInterval(() => ws.ping(), 2000);
+    setInterval(() => ws.ping(), 3000);
   });
   return wsServer;
 };
