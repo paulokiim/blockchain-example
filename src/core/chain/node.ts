@@ -12,7 +12,10 @@ export const sockets: SocketsArray = [];
 const initPeerToPeerServer = (server: Server) => {
   const wsServer = new WebSocket.Server({ server });
   console.log(`Web Socket server started at port ${config.PORT}`);
-  wsServer.on('connection', (ws) => initConnection(ws));
+  wsServer.on('connection', (ws) => {
+    initConnection(ws);
+    setInterval(() => ws.ping(), 1000);
+  });
   return wsServer;
 };
 
