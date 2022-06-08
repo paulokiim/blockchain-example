@@ -51,13 +51,25 @@ describe('Testing node.ts from core/chain', () => {
     });
   });
 
+  describe('Testing reconnectNode()', () => {
+    it('Should start peer to peer server', () => {
+      const mockedOn = jest.spyOn(ws, 'on').mockImplementation();
+      internalFunctions.reconnectNode('ws://localhost:3000');
+      expect(mockedOn).toBeCalled;
+    });
+  });
+
   describe('Testing closeConnection()', () => {
     it('Should close socket connection', () => {
+      const mockedReconnectNode = jest
+        .spyOn(internalFunctions, 'reconnectNode')
+        .mockImplementation();
       expect(internalFunctions.sockets.length).toEqual(1);
 
       internalFunctions.closeConnection(ws);
 
       expect(internalFunctions.sockets.length).toEqual(0);
+      expect(mockedReconnectNode).toBeCalled;
     });
   });
 

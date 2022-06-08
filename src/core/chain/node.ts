@@ -12,7 +12,10 @@ export const sockets: SocketsArray = [];
 const initPeerToPeerServer = (server: Server) => {
   const wsServer = new WebSocket.Server({ server });
   console.log(`Web Socket server started at port ${config.PORT}`);
-  wsServer.on('connection', (ws) => initConnection(ws));
+  wsServer.on('connection', (ws) => {
+    initConnection(ws);
+    setInterval(() => ws.ping(), 45000);
+  });
   return wsServer;
 };
 
@@ -30,8 +33,18 @@ export const initMessageHandler = (ws: WebSocket.WebSocket) => {
   ws.on('message', (data: string) => nodeService.messageHandler({ ws, data }));
 };
 
+export const reconnectNode = (url: string) => {
+  const socket = new WebSocket(url);
+  socket.on('open', () => initConnection(socket));
+};
+
 export const closeConnection = (ws: WebSocket.WebSocket) => {
   sockets.splice(sockets.indexOf(ws), 1);
+  const serverUrl = ws.url;
+  if (serverUrl) reconnectNode(serverUrl);
+  ws.removeAllListeners();
+  ws.terminate();
+  console.log('Reconnecting...');
 };
 
 export const initErrorHandler = (ws: WebSocket.WebSocket) => {
