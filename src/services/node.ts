@@ -56,6 +56,7 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
       });
       break;
     case MSG_TYPES.CHAIN_VALIDATION:
+      console.log('CHAIN VALIDATION', message.data.isValid);
       if (message.data.isValid) {
         const block: Block = message.data.block;
         chainManager.addNewBlock(block);
@@ -76,6 +77,7 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
         });
       break;
     case MSG_TYPES.COMMIT_BLOCK:
+      console.log('COMMIT BLOCK');
       const block: Block = message.data.block;
       chainManager.addNewBlock(block);
       break;
