@@ -3,10 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/index.ts",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "tests": "ts-node node_modules/jest/bin/jest.js --silent",
-    "coverage": "ts-node node_modules/jest/bin/jest.js --coverage --silent"
+    "coverage": "ts-node node_modules/jest/bin/jest.js --coverage --silent",
+    "build": "tsc",
+    "start": "node build/src/index.js"
   },
   "keywords": [],
   "author": "",

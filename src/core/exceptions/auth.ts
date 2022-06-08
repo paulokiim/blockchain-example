@@ -2,7 +2,7 @@ import { constants as HttpStatus } from 'http2';
 
 import errorEnum from '../../enums/error';
 
-const jwtTokenNotFound: OnSuccessParams = {
+const jwtTokenNotFound = {
   data: {
     detail: errorEnum.authToken.jwtTokenNotFound,
     auth: false,
@@ -10,7 +10,7 @@ const jwtTokenNotFound: OnSuccessParams = {
   statusCode: HttpStatus.HTTP_STATUS_UNAUTHORIZED,
 };
 
-const jwtTokenNotVerified: OnSuccessParams = {
+const jwtTokenNotVerified = {
   data: {
     detail: errorEnum.authToken.tokenNotVerified,
     auth: false,
