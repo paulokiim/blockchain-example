@@ -126,6 +126,7 @@ describe('Testing node.ts from services', () => {
     });
     it(`Should handle ${MSG_TYPE.COMMIT_BLOCK} type message`, () => {
       Date.now = jest.fn(() => mockedTimestamp);
+      const mockWsSend = jest.spyOn(ws, 'send').mockImplementation(() => {});
       const latestBlock = chainManager.getLatestBlock();
       const blockToAdd = {
         ...mockedBlock,
@@ -144,6 +145,7 @@ describe('Testing node.ts from services', () => {
       const newBlock = chainManager.getLatestBlock();
       expect(newBlock.previousHash).toEqual(mockedBlock.hash);
       expect(newBlock.timestamp).toEqual(mockedBlock.timestamp);
+      expect(mockWsSend).toBeCalled;
     });
     it(`Should handle ${MSG_TYPE.REJECT_BLOCK} type message`, () => {
       const mockConsoleLog = jest
@@ -164,9 +166,6 @@ describe('Testing node.ts from services', () => {
     it.each([[true], [false]])(
       `Should handle ${MSG_TYPE.CHAIN_VALIDATION} type message with isValid equal to %p`,
       (isValid) => {
-        const mockedAddBlock = jest
-          .spyOn(chainManager, 'addBlock')
-          .mockImplementation();
         const mockWsSend = jest.spyOn(ws, 'send').mockImplementation(() => {});
         nodeService.messageHandler({
           ws,
@@ -179,11 +178,6 @@ describe('Testing node.ts from services', () => {
           }),
         });
         expect(mockWsSend).toBeCalled;
-        if (isValid) {
-          expect(mockedAddBlock).toBeCalled;
-        } else {
-          expect(mockedAddBlock).not.toBeCalled;
-        }
       }
     );
     it(`Should find signature and not process`, () => {

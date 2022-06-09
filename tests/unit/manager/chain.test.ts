@@ -67,7 +67,7 @@ describe('Testing chain.js from manager', () => {
 
   describe('Testing addNewBlock()', () => {
     it('Should successfully add a new block', () => {
-      const block = chainManager.addNewBlock(mockedBlock);
+      const block = chainManager.commitBlock(mockedBlock);
       expect(block).toEqual(mockedBlock);
     });
   });

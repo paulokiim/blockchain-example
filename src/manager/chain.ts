@@ -34,11 +34,11 @@ const replaceBlockchain = (blockchainArray: BlockchainArray) =>
 const isChainValid = (blockchainArray: BlockchainArray) =>
   blockchain.chainIsValid(blockchainArray);
 
-const addNewBlock = (block: Block) => blockchain.addNewBlock(block);
+const commitBlock = (block: Block) => blockchain.addNewBlock(block);
 
 export default {
   addBlock,
-  addNewBlock,
+  commitBlock,
   getUserBlocks,
   getBlockchain,
   getLatestBlock,
