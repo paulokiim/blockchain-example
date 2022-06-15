@@ -1,0 +1,3 @@
+interface AddPeerParams {
+  url: string;
+}

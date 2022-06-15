@@ -19,4 +19,9 @@ const getUserBlocks = (blocks: BlockchainArray) => ({
   statusCode: HttpStatus.HTTP_STATUS_OK,
 });
 
-export default { onError, addBlock, getUserBlocks };
+const addPeer = (peer: string) => ({
+  data: peer,
+  statusCode: HttpStatus.HTTP_STATUS_CREATED,
+});
+
+export default { onError, addBlock, getUserBlocks, addPeer };
