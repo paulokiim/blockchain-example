@@ -6,14 +6,14 @@ import {
   mockedBlockHash,
 } from '../../../fixtures/block';
 
-describe('## Testing block.ts functions', () => {
+describe('Testing block.ts functions', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
   Date.now = jest.fn(() => mockedTimestamp);
 
-  describe('# Testing calculateHash()', () => {
+  describe('Testing calculateHash()', () => {
     it('Should return a new hash', () => {
       const timestamp = Date.now();
       const hash = blockFunctions.calculateHash({
@@ -25,7 +25,7 @@ describe('## Testing block.ts functions', () => {
     });
   });
 
-  describe('# Testing createBlock()', () => {
+  describe('Testing createBlock()', () => {
     jest
       .spyOn(blockFunctions, 'calculateHash')
       .mockReturnValue(mockedBlockHash);

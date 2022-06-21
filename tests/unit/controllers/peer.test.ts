@@ -11,7 +11,7 @@ describe('Testing peer.ts from controllers', () => {
   describe('Testing addPeer()', () => {
     it('Should successfully add a peer', () => {
       const peer = 'ws://localhost';
-      jest.spyOn(peerManager, 'addPeer').mockImplementation(() => peer);
+      jest.spyOn(peerManager, 'addPeer').mockReturnValue({ url: peer });
       mockResponse.status = jest.fn().mockReturnThis();
       mockResponse.send = jest.fn().mockReturnValue({ peer });
       mockRequest.body = { peer };

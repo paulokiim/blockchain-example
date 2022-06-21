@@ -29,22 +29,26 @@ const initConnection = (ws: WebSocket.WebSocket) => {
   });
 };
 
-export const initMessageHandler = (ws: WebSocket.WebSocket) => {
-  ws.on('message', (data: string) => nodeService.messageHandler({ ws, data }));
-};
-
-export const reconnectNode = (url: string) => {
+const reconnectNode = (url: string, retryCount: number) => {
+  console.log(`Trying to reconnect to ${url}`);
   const socket = new WebSocket(url);
   socket.on('open', () => initConnection(socket));
+  socket.on('error', () => {
+    if (retryCount >= 3) return;
+    setTimeout(() => reconnectNode(url, retryCount + 1), 60000);
+  });
+};
+
+export const initMessageHandler = (ws: WebSocket.WebSocket) => {
+  ws.on('message', (data: string) => nodeService.messageHandler({ ws, data }));
 };
 
 export const closeConnection = (ws: WebSocket.WebSocket) => {
   sockets.splice(sockets.indexOf(ws), 1);
   const serverUrl = ws.url;
-  if (serverUrl) reconnectNode(serverUrl);
   ws.removeAllListeners();
   ws.terminate();
-  console.log('Reconnecting...');
+  if (serverUrl) reconnectNode(serverUrl, 0);
 };
 
 export const initErrorHandler = (ws: WebSocket.WebSocket) => {
@@ -52,4 +56,4 @@ export const initErrorHandler = (ws: WebSocket.WebSocket) => {
   ws.on('error', () => closeConnection(ws));
 };
 
-export default { initPeerToPeerServer, initConnection };
+export default { initPeerToPeerServer, initConnection, reconnectNode };

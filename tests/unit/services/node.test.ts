@@ -203,7 +203,7 @@ describe('Testing node.ts from services', () => {
     });
   });
 
-  describe('# Testing writeMessage()', () => {
+  describe('Testing writeMessage()', () => {
     it('Should write a message to socket', () => {
       const mockWsSend = jest.spyOn(ws, 'send').mockImplementation(() => {});
       nodeService.writeMessage(ws, {

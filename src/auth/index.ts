@@ -16,16 +16,16 @@ const checkAuthentication = (
     return res
       .status(exceptions.jwtTokenNotFound.statusCode)
       .send(exceptions.jwtTokenNotFound.data);
-  const verifiedJWT = jwt.verify(token, TOKEN_SECRET);
+  try {
+    const verifiedJWT = jwt.verify(token, TOKEN_SECRET);
 
-  if (!verifiedJWT) {
+    req.body.uid = (verifiedJWT as Token).uid;
+    next();
+  } catch (e) {
     return res
-      .status(exceptions.jwtTokenNotVerified.statusCode)
-      .send(exceptions.jwtTokenNotVerified.data);
+      .status(exceptions.jwtTokenExpired.statusCode)
+      .send(exceptions.jwtTokenExpired.data);
   }
-
-  req.body.uid = (verifiedJWT as Token).uid;
-  next();
 };
 
 const createJWTToken = (data: Token): string =>

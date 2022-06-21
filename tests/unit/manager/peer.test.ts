@@ -9,7 +9,7 @@ describe('Testing peer.ts from controllers', () => {
 
       const response = peerManager.addPeer(addPeerParams);
 
-      expect(response).toEqual(addPeerParams.url);
+      expect(response).toEqual(addPeerParams);
     });
   });
 });

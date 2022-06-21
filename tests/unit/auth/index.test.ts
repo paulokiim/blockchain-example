@@ -6,13 +6,13 @@ import auth from '../../../src/auth';
 
 import { mockedToken, mockedAuthorization } from '../../fixtures/jwt';
 
-describe('### Testing Authentications', () => {
+describe('Testing Authentications', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
-  describe('## checkAuthentication()', () => {
-    describe('# When token doesnt exist', () => {
+  describe('checkAuthentication()', () => {
+    describe('When token doesnt exist', () => {
       test('Should return 401 and token not provided error', () => {
         const mockRequest = request;
         mockRequest.headers = {};
@@ -33,9 +33,11 @@ describe('### Testing Authentications', () => {
       });
     });
 
-    describe('# When token was not verified', () => {
+    describe('When token was not verified', () => {
       test('Should return 401 and token not provided error', () => {
-        jest.spyOn(jwt, 'verify').mockReturnValue(undefined);
+        jest.spyOn(jwt, 'verify').mockImplementation(() => {
+          throw Error();
+        });
         const mockRequest = request;
         mockRequest.headers = { authorization: mockedAuthorization };
 
@@ -55,7 +57,7 @@ describe('### Testing Authentications', () => {
       });
     });
 
-    describe('# When token is verified', () => {
+    describe('When token is verified', () => {
       test('Should call next function', () => {
         const verify = jest
           .spyOn(jwt, 'verify')
@@ -78,8 +80,8 @@ describe('### Testing Authentications', () => {
     });
   });
 
-  describe('## createJWTToken()', () => {
-    describe('# When created successfully', () => {
+  describe('createJWTToken()', () => {
+    describe('When created successfully', () => {
       test('Should return a valid jwt token', () => {
         const token = auth.createJWTToken(mockedToken);
 

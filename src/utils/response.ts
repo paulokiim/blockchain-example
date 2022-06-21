@@ -19,7 +19,7 @@ const getUserBlocks = (blocks: BlockchainArray) => ({
   statusCode: HttpStatus.HTTP_STATUS_OK,
 });
 
-const addPeer = (peer: string) => ({
+const addPeer = (peer: JSONObject) => ({
   data: peer,
   statusCode: HttpStatus.HTTP_STATUS_CREATED,
 });

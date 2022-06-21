@@ -10,12 +10,12 @@ const jwtTokenNotFound = {
   statusCode: HttpStatus.HTTP_STATUS_UNAUTHORIZED,
 };
 
-const jwtTokenNotVerified = {
+const jwtTokenExpired = {
   data: {
-    detail: errorEnum.authToken.tokenNotVerified,
+    detail: errorEnum.authToken.tokenExpired,
     auth: false,
   },
   statusCode: HttpStatus.HTTP_STATUS_UNAUTHORIZED,
 };
 
-export default { jwtTokenNotFound, jwtTokenNotVerified };
+export default { jwtTokenNotFound, jwtTokenExpired };
