@@ -1,6 +1,7 @@
 import blockchain from '../core/chain';
 import block from '../core/chain/block';
 import nodeService from '../services/node';
+import { sockets } from '../core/chain/node';
 
 import MSG_TYPES from '../enums/node-message';
 
@@ -12,10 +13,15 @@ const addBlock = (params: AddBlockParams) => {
     previousHash: latestBlock.hash,
     timestamp,
   });
-  nodeService.broadcast({
-    type: MSG_TYPES.ADD_BLOCK,
-    data: { block: buildedBlock },
-  });
+  if (sockets.length > 0) {
+    nodeService.broadcast({
+      type: MSG_TYPES.ADD_BLOCK,
+      data: { block: buildedBlock },
+    });
+  } else {
+    const isBlockchainValid = isChainValid(getBlockchain());
+    if (isBlockchainValid) commitBlock(buildedBlock);
+  }
   return {
     processing: true,
   };

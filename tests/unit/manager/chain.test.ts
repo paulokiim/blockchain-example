@@ -1,6 +1,7 @@
 import blockchain from '../../../src/core/chain';
 import chainManager from '../../../src/manager/chain';
 import nodeService from '../../../src/services/node';
+import { sockets } from '../../../src/core/chain/node';
 
 import {
   mockedBlock,
@@ -15,12 +16,26 @@ describe('Testing chain.js from manager', () => {
   });
 
   describe('Testing addBlock()', () => {
-    it('Should successfully add a block', () => {
+    it('Should successfully add a block without peers', () => {
       jest.spyOn(blockchain, 'getLatestBlock').mockReturnValue(mockedBlock);
       jest.spyOn(nodeService, 'broadcast').mockImplementation(() => {});
       jest.spyOn(blockchain, 'addNewBlock').mockReturnValue(mockedBlock);
+      jest.spyOn(blockchain, 'chainIsValid').mockReturnValue(true);
       const response = chainManager.addBlock(mockAddBlockParams);
       expect(response).toEqual({ processing: true });
+    });
+
+    it('Should successfully add a block with peers', () => {
+      const mockedBroadcast = jest
+        .spyOn(nodeService, 'broadcast')
+        .mockImplementation(() => {});
+      jest.spyOn(blockchain, 'getLatestBlock').mockReturnValue(mockedBlock);
+      jest.spyOn(blockchain, 'addNewBlock').mockReturnValue(mockedBlock);
+      sockets.push(1);
+      const response = chainManager.addBlock(mockAddBlockParams);
+      expect(response).toEqual({ processing: true });
+      expect(mockedBroadcast).toHaveBeenCalled;
+      sockets.pop();
     });
   });
 

@@ -26,7 +26,7 @@ describe('INTEGRATION: Testing src/manager/chain.ts', () => {
       manager.commitBlock(mockedBlock);
       const response = manager.getUserBlocks(mockGetExamsParams);
 
-      expect(response.length).toEqual(1);
+      expect(response.length).toEqual(2);
     });
   });
 
