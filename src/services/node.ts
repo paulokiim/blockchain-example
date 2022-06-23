@@ -86,7 +86,7 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
 };
 
 const writeMessage = (ws: WebSocket.WebSocket, message: SocketMessage) => {
-  const signatureString = `${Date.now()}-${config.PORT}-${message}`;
+  const signatureString = `${config.TOKEN_SECRET}-${message}`;
   const signature = createHash(signatureString);
   receivedSignatures.push(signature);
   const payload = { signature, message };
