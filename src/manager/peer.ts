@@ -7,7 +7,7 @@ const addPeer = (params: AddPeerParams) => {
 
   const socket = new WebSocket(url);
 
-  socket.on('open', () => node.initConnection(socket));
+  socket.on('open', () => node.setupSocket(socket));
   socket.on('error', () => node.reconnectNode(url, 0));
 
   return { url };

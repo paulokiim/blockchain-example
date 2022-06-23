@@ -19,10 +19,14 @@ const initPeerToPeerServer = (server: Server) => {
   return wsServer;
 };
 
-const initConnection = (ws: WebSocket.WebSocket) => {
+const setupSocket = (ws: WebSocket.WebSocket) => {
   sockets.push(ws);
   initErrorHandler(ws);
   initMessageHandler(ws);
+};
+
+const initConnection = (ws: WebSocket.WebSocket) => {
+  setupSocket(ws);
   nodeService.writeMessage(ws, {
     type: MSG_TYPES.NEW_NODE,
     data: { blockchain: chainManager.getBlockchain() },
@@ -32,7 +36,7 @@ const initConnection = (ws: WebSocket.WebSocket) => {
 const reconnectNode = (url: string, retryCount: number) => {
   console.log(`Trying to reconnect to ${url}`);
   const socket = new WebSocket(url);
-  socket.on('open', () => initConnection(socket));
+  socket.on('open', () => setupSocket(socket));
   socket.on('error', () => {
     if (retryCount >= 3) return;
     setTimeout(() => reconnectNode(url, retryCount + 1), 60000);
@@ -56,4 +60,9 @@ export const initErrorHandler = (ws: WebSocket.WebSocket) => {
   ws.on('error', () => closeConnection(ws));
 };
 
-export default { initPeerToPeerServer, initConnection, reconnectNode };
+export default {
+  initPeerToPeerServer,
+  initConnection,
+  reconnectNode,
+  setupSocket,
+};

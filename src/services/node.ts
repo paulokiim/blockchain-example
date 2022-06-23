@@ -78,6 +78,7 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
           block: message.data.block,
         },
       });
+      console.log('Bloco commitado: ', block);
       break;
     case MSG_TYPES.REJECT_BLOCK:
       console.log('Bloco rejeitado: ', message.data.block);
@@ -86,9 +87,8 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
 };
 
 const writeMessage = (ws: WebSocket.WebSocket, message: SocketMessage) => {
-  const signatureString = `${config.TOKEN_SECRET}-${message}`;
+  const signatureString = `${config.TOKEN_SECRET}-${JSON.stringify(message)}`;
   const signature = createHash(signatureString);
-  receivedSignatures.push(signature);
   const payload = { signature, message };
   ws.send(JSON.stringify(payload));
 };
