@@ -56,7 +56,7 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
     case MSG_TYPES.CHAIN_VALIDATION:
       if (message.data.isValid) {
         writeMessage(ws, {
-          type: MSG_TYPES.COMMIT_BLOCK,
+          type: MSG_TYPES.MAKE_CONCENSUS,
           data: {
             block: message.data.block,
           },
@@ -69,15 +69,23 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
           },
         });
       break;
-    case MSG_TYPES.COMMIT_BLOCK:
-      const block: Block = message.data.block;
-      chainManager.commitBlock(block);
-      writeMessage(ws, {
-        type: MSG_TYPES.SYNC_NODES,
+    case MSG_TYPES.MAKE_CONCENSUS:
+      broadcast({
+        type: MSG_TYPES.MAKE_CONCENSUS,
         data: {
-          blockchain: chainManager.getBlockchain(),
+          block: message.data.block,
         },
       });
+      setTimeout(() => {
+        const block: Block = message.data.block;
+        chainManager.commitBlock(block);
+        broadcast({
+          type: MSG_TYPES.SYNC_NODES,
+          data: {
+            blockchain: chainManager.getBlockchain(),
+          },
+        });
+      }, Math.random() * 60000);
       break;
     case MSG_TYPES.REJECT_BLOCK:
       console.log('Bloco rejeitado: ', message.data.block);
@@ -98,6 +106,7 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
 const writeMessage = (ws: WebSocket.WebSocket, message: SocketMessage) => {
   const signatureString = `${config.TOKEN_SECRET}-${JSON.stringify(message)}`;
   const signature = createHash(signatureString);
+  receivedSignatures.push(signature);
   const payload = { signature, message };
   ws.send(JSON.stringify(payload));
 };

@@ -124,9 +124,11 @@ describe('Testing node.ts from services', () => {
       });
       expect(mockWsSend).toBeCalled;
     });
-    it(`Should handle ${MSG_TYPE.COMMIT_BLOCK} type message`, () => {
-      Date.now = jest.fn(() => mockedTimestamp);
-      const mockWsSend = jest.spyOn(ws, 'send').mockImplementation(() => {});
+    it(`Should handle ${MSG_TYPE.MAKE_CONCENSUS} type message`, () => {
+      jest.useFakeTimers();
+      const mockedBroadcast = jest
+        .spyOn(nodeService, 'broadcast')
+        .mockImplementation(() => ({}));
       const latestBlock = chainManager.getLatestBlock();
       const blockToAdd = {
         ...mockedBlock,
@@ -136,16 +138,17 @@ describe('Testing node.ts from services', () => {
         ws,
         data: JSON.stringify({
           message: {
-            type: MSG_TYPE.COMMIT_BLOCK,
+            type: MSG_TYPE.MAKE_CONCENSUS,
             data: { block: blockToAdd },
           },
-          signature: MSG_TYPE.COMMIT_BLOCK,
+          signature: MSG_TYPE.MAKE_CONCENSUS,
         }),
       });
+      jest.advanceTimersByTime(60000);
       const newBlock = chainManager.getLatestBlock();
       expect(newBlock.previousHash).toEqual(mockedBlock.hash);
       expect(newBlock.timestamp).toEqual(mockedBlock.timestamp);
-      expect(mockWsSend).toBeCalled;
+      expect(mockedBroadcast).toBeCalled;
     });
     it(`Should handle ${MSG_TYPE.REJECT_BLOCK} type message`, () => {
       const mockConsoleLog = jest
