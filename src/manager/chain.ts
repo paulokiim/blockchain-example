@@ -14,7 +14,6 @@ const addBlock = (params: AddBlockParams) => {
     timestamp,
   });
   if (sockets.length > 0) {
-    console.log('Broadcasting');
     nodeService.broadcast({
       type: MSG_TYPES.ADD_BLOCK,
       data: { block: buildedBlock },

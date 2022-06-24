@@ -73,15 +73,24 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
       const block: Block = message.data.block;
       chainManager.commitBlock(block);
       writeMessage(ws, {
-        type: MSG_TYPES.COMMIT_BLOCK,
+        type: MSG_TYPES.SYNC_NODES,
         data: {
-          block: message.data.block,
+          blockchain: chainManager.getBlockchain(),
         },
       });
-      console.log('Bloco commitado: ', block);
       break;
     case MSG_TYPES.REJECT_BLOCK:
       console.log('Bloco rejeitado: ', message.data.block);
+      break;
+    case MSG_TYPES.SYNC_NODES:
+      const receivedBlockchain: BlockchainArray = message.data.blockchain;
+      chainManager.replaceBlockchain(receivedBlockchain);
+      broadcast({
+        type: MSG_TYPES.SYNC_NODES,
+        data: {
+          blockchain: chainManager.getBlockchain(),
+        },
+      });
       break;
   }
 };
