@@ -72,9 +72,9 @@ describe('INTEGRATION: Testing src/manager/chain.ts', () => {
 
   describe('Testing commitBlock()', () => {
     it('Should commit a block', () => {
-      const block = manager.commitBlock(mockedBlock);
+      const isBlockAdded = manager.commitBlock(mockedBlock);
 
-      expect(block).toEqual(mockedBlock);
+      expect(isBlockAdded).toBeTruthy;
     });
   });
 });

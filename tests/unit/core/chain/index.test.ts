@@ -1,5 +1,6 @@
 import block from '../../../../src/core/chain/block';
 import blockchain from '../../../../src/core/chain';
+import CHAIN_STATUS from '../../../../src/enums/chain-status';
 
 import {
   mockedGenesisHash,
@@ -22,13 +23,22 @@ describe('Testing index.ts functions', () => {
 
   Date.now = jest.fn(() => mockedTimestamp);
 
-  const timestamp = Date.now();
-
   describe('Testing getBlockchain()', () => {
     it('Should return the blockchain', () => {
       const blockchainArray = blockchain.getBlockchain();
       expect(blockchainArray.length).toEqual(0);
     });
+  });
+
+  describe('Testing setStatus() and getStatus()', () => {
+    it.each([CHAIN_STATUS.READY, CHAIN_STATUS.PRE_COMMIT, CHAIN_STATUS.LOCK])(
+      'Should set status',
+      (status) => {
+        blockchain.setStatus(status);
+        const newStatus = blockchain.getStatus();
+        expect(newStatus).toEqual(status);
+      }
+    );
   });
 
   describe('Testing createGenesisBlock()', () => {
@@ -61,11 +71,20 @@ describe('Testing index.ts functions', () => {
   });
 
   describe('Testing addNewBlock()', () => {
-    it('Should add a new block to the blockcahin', () => {
-      mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
-      mockBlockCreateBlock.mockReturnValue(mockedBlock);
-      const newBlock = blockchain.addNewBlock(mockedBlock);
-      expect(newBlock).toEqual(mockedBlock);
+    it.each([CHAIN_STATUS.READY, CHAIN_STATUS.PRE_COMMIT])(
+      'Should add a new block to the blockchain',
+      (status) => {
+        blockchain.setStatus(status);
+        mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
+        mockBlockCreateBlock.mockReturnValue(mockedBlock);
+        const isBlockAdded = blockchain.addNewBlock(mockedBlock);
+        expect(isBlockAdded).toBeTruthy;
+      }
+    );
+    it('Should not add a new block because is locked', () => {
+      blockchain.setStatus(CHAIN_STATUS.LOCK);
+      const isBlockAdded = blockchain.addNewBlock(mockedBlock);
+      expect(isBlockAdded).toBeFalsy;
     });
   });
 
