@@ -1,6 +1,14 @@
 import blockFunctions from './block';
+import CHAIN_STATUS from '../../enums/chain-status';
 
 const blockchain: BlockchainArray = [];
+let STATUS = CHAIN_STATUS.READY;
+
+const setStatus = (status: string) => {
+  STATUS = status;
+};
+
+const getStatus = () => STATUS;
 
 const getBlockchain = (): BlockchainArray => blockchain;
 
@@ -30,9 +38,12 @@ const getLatestBlock = (): Block => {
   return latestBlock;
 };
 
-const addNewBlock = (block: Block): Block => {
-  blockchain.push(block);
-  return block;
+const addNewBlock = (block: Block): boolean => {
+  if (STATUS !== CHAIN_STATUS.LOCK) {
+    blockchain.push(block);
+    return true;
+  }
+  return false;
 };
 
 const chainIsValid = (blockchainArray: BlockchainArray): boolean => {
@@ -64,6 +75,8 @@ const getUserBlocks = (params: GetExamsParams): Array<Block> => {
 };
 
 export default {
+  setStatus,
+  getStatus,
   createGenesisBlock,
   createBlockchain,
   addNewBlock,

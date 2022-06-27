@@ -19,7 +19,7 @@ describe('Testing chain.js from manager', () => {
     it('Should successfully add a block without peers', () => {
       jest.spyOn(blockchain, 'getLatestBlock').mockReturnValue(mockedBlock);
       jest.spyOn(nodeService, 'broadcast').mockImplementation(() => {});
-      jest.spyOn(blockchain, 'addNewBlock').mockReturnValue(mockedBlock);
+      jest.spyOn(blockchain, 'addNewBlock').mockReturnValue(true);
       jest.spyOn(blockchain, 'chainIsValid').mockReturnValue(true);
       const response = chainManager.addBlock(mockAddBlockParams);
       expect(response).toEqual({ processing: true });
@@ -30,7 +30,7 @@ describe('Testing chain.js from manager', () => {
         .spyOn(nodeService, 'broadcast')
         .mockImplementation(() => {});
       jest.spyOn(blockchain, 'getLatestBlock').mockReturnValue(mockedBlock);
-      jest.spyOn(blockchain, 'addNewBlock').mockReturnValue(mockedBlock);
+      jest.spyOn(blockchain, 'addNewBlock').mockReturnValue(true);
       sockets.push(1);
       const response = chainManager.addBlock(mockAddBlockParams);
       expect(response).toEqual({ processing: true });
@@ -82,8 +82,8 @@ describe('Testing chain.js from manager', () => {
 
   describe('Testing addNewBlock()', () => {
     it('Should successfully add a new block', () => {
-      const block = chainManager.commitBlock(mockedBlock);
-      expect(block).toEqual(mockedBlock);
+      const isBlockAdded = chainManager.commitBlock(mockedBlock);
+      expect(isBlockAdded).toBeTruthy;
     });
   });
 });
