@@ -28,6 +28,10 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
       const blockchain: BlockchainArray = message.data.blockchain;
       chainManager.replaceBlockchain(blockchain);
       break;
+    case MSG_TYPES.CHANGE_CHAIN_STATUS:
+      const status = message.data.status;
+      chainManager.setStatus(status);
+      break;
     case MSG_TYPES.GET_BLOCKCHAIN_RESPONSE:
       const isValid = isBlockchainsEqual(message.data.blockchain);
       writeMessage(ws, {

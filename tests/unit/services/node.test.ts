@@ -5,10 +5,10 @@ import {
   mockedBlock,
   mockedBlockchain,
   mockedGenesisBlock,
-  mockedTimestamp,
 } from '../../fixtures/block';
 
 import MSG_TYPE from '../../../src/enums/node-message';
+import CHAIN_STATUS from '../../../src/enums/chain-status';
 import nodeService, * as internalFunctions from '../../../src/services/node';
 import { sockets } from '../../../src/core/chain/node';
 import chainManager from '../../../src/manager/chain';
@@ -201,6 +201,27 @@ describe('Testing node.ts from services', () => {
       expect(mockedBroadcast).toBeCalled;
       expect(latestBlock).toEqual(mockedBlock);
     });
+    it.each([
+      [CHAIN_STATUS.READY],
+      [CHAIN_STATUS.PRE_COMMIT],
+      [CHAIN_STATUS.LOCK],
+    ])(
+      `Should handle ${MSG_TYPE.CHANGE_CHAIN_STATUS} type message with status %p`,
+      (status) => {
+        nodeService.messageHandler({
+          ws,
+          data: JSON.stringify({
+            message: {
+              type: MSG_TYPE.CHANGE_CHAIN_STATUS,
+              data: { status },
+            },
+            signature: `${MSG_TYPE.CHANGE_CHAIN_STATUS}${status}`,
+          }),
+        });
+        const chainStatus = chainManager.getStatus();
+        expect(chainStatus).toEqual(status);
+      }
+    );
     it(`Should find signature and not process`, () => {
       nodeService.messageHandler({
         ws,

@@ -2,18 +2,20 @@ import blockchain from '../core/chain';
 import block from '../core/chain/block';
 import nodeService from '../services/node';
 import { sockets } from '../core/chain/node';
+import timestamp from '../utils/timestamp';
 
 import MSG_TYPES from '../enums/node-message';
+import CHAIN_STATUS from '../enums/chain-status';
 
 const addBlock = (params: AddBlockParams) => {
-  const { data, timestamp } = params;
-  const latestBlock = getLatestBlock();
-  const buildedBlock = block.createBlock({
-    data,
-    previousHash: latestBlock.hash,
-    timestamp,
-  });
+  const { data } = params;
+  const buildedBlock = buildBlock(data);
   if (sockets.length > 0) {
+    setStatus(CHAIN_STATUS.LOCK);
+    nodeService.broadcast({
+      type: MSG_TYPES.CHANGE_CHAIN_STATUS,
+      data: { status: CHAIN_STATUS.LOCK },
+    });
     nodeService.broadcast({
       type: MSG_TYPES.ADD_BLOCK,
       data: { block: buildedBlock },
@@ -25,6 +27,15 @@ const addBlock = (params: AddBlockParams) => {
   return {
     processing: true,
   };
+};
+
+const buildBlock = (data: BlockData) => {
+  const latestBlock = getLatestBlock();
+  return block.createBlock({
+    data,
+    previousHash: latestBlock.hash,
+    timestamp: timestamp.getTimestamp(),
+  });
 };
 
 const getUserBlocks = (params: GetExamsParams) =>
@@ -42,6 +53,10 @@ const isChainValid = (blockchainArray: BlockchainArray) =>
 
 const commitBlock = (block: Block) => blockchain.addNewBlock(block);
 
+const setStatus = (status: string) => blockchain.setStatus(status);
+
+const getStatus = () => blockchain.getStatus();
+
 export default {
   addBlock,
   commitBlock,
@@ -50,4 +65,7 @@ export default {
   getLatestBlock,
   replaceBlockchain,
   isChainValid,
+  setStatus,
+  getStatus,
+  buildBlock,
 };

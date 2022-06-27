@@ -2,12 +2,14 @@ import blockchain from '../../../src/core/chain';
 import chainManager from '../../../src/manager/chain';
 import nodeService from '../../../src/services/node';
 import { sockets } from '../../../src/core/chain/node';
+import CHAIN_STATUS from '../../../src/enums/chain-status';
 
 import {
   mockedBlock,
   mockAddBlockParams,
   mockGetExamsParams,
   mockedBlockchain,
+  mockedGenesisBlock,
 } from '../../fixtures/block';
 
 describe('Testing chain.js from manager', () => {
@@ -84,6 +86,27 @@ describe('Testing chain.js from manager', () => {
     it('Should successfully add a new block', () => {
       const isBlockAdded = chainManager.commitBlock(mockedBlock);
       expect(isBlockAdded).toBeTruthy;
+    });
+  });
+
+  describe('Testing setStatus() and getStatus()', () => {
+    it.each([CHAIN_STATUS.READY, CHAIN_STATUS.PRE_COMMIT, CHAIN_STATUS.LOCK])(
+      'Should set status',
+      (status) => {
+        chainManager.setStatus(status);
+        const newStatus = chainManager.getStatus();
+        expect(newStatus).toEqual(status);
+      }
+    );
+  });
+
+  describe('Testing buildBlock', () => {
+    it('Should build block', () => {
+      jest
+        .spyOn(blockchain, 'getLatestBlock')
+        .mockReturnValue(mockedGenesisBlock);
+      const block = chainManager.buildBlock(mockedBlock.data);
+      expect(block.data).toEqual(mockedBlock.data);
     });
   });
 });
