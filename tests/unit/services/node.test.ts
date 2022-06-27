@@ -184,9 +184,6 @@ describe('Testing node.ts from services', () => {
       }
     );
     it(`Should handle ${MSG_TYPE.SYNC_NODES} type message`, () => {
-      const mockedCommitBlock = jest
-        .spyOn(chainManager, 'commitBlock')
-        .mockReturnValue(mockedBlock);
       const mockedBroadcast = jest
         .spyOn(nodeService, 'broadcast')
         .mockImplementation(() => ({}));
@@ -195,15 +192,14 @@ describe('Testing node.ts from services', () => {
         data: JSON.stringify({
           message: {
             type: MSG_TYPE.SYNC_NODES,
-            data: { blockchain: mockedBlockchain },
+            data: { block: mockedBlock },
           },
           signature: MSG_TYPE.SYNC_NODES,
         }),
       });
-      const newBlockchain = chainManager.getBlockchain();
-      expect(mockedCommitBlock).toBeCalled;
+      const latestBlock = chainManager.getLatestBlock();
       expect(mockedBroadcast).toBeCalled;
-      expect(newBlockchain).toEqual(mockedBlockchain);
+      expect(latestBlock).toEqual(mockedBlock);
     });
     it(`Should find signature and not process`, () => {
       nodeService.messageHandler({

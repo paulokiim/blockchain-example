@@ -82,21 +82,21 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
         broadcast({
           type: MSG_TYPES.SYNC_NODES,
           data: {
-            blockchain: chainManager.getBlockchain(),
+            block,
           },
         });
-      }, Math.random() * 60000);
+      }, Math.random() * 60000); // onde colocar o clearTimeout?
       break;
     case MSG_TYPES.REJECT_BLOCK:
       console.log('Bloco rejeitado: ', message.data.block);
       break;
     case MSG_TYPES.SYNC_NODES:
-      const receivedBlockchain: BlockchainArray = message.data.blockchain;
-      chainManager.replaceBlockchain(receivedBlockchain);
+      const block: Block = message.data.block;
+      chainManager.commitBlock(block);
       broadcast({
         type: MSG_TYPES.SYNC_NODES,
         data: {
-          blockchain: chainManager.getBlockchain(),
+          block,
         },
       });
       break;
