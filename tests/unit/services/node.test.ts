@@ -145,9 +145,6 @@ describe('Testing node.ts from services', () => {
         }),
       });
       jest.advanceTimersByTime(60000);
-      const newBlock = chainManager.getLatestBlock();
-      expect(newBlock.previousHash).toEqual(mockedBlock.hash);
-      expect(newBlock.timestamp).toEqual(mockedBlock.timestamp);
       expect(mockedBroadcast).toBeCalled;
     });
     it(`Should handle ${MSG_TYPE.REJECT_BLOCK} type message`, () => {
@@ -164,7 +161,9 @@ describe('Testing node.ts from services', () => {
           signature: MSG_TYPE.REJECT_BLOCK,
         }),
       });
+      const status = chainManager.getStatus();
       expect(mockConsoleLog).toBeCalled;
+      expect(status).toEqual(CHAIN_STATUS.READY);
     });
     it.each([[true], [false]])(
       `Should handle ${MSG_TYPE.CHAIN_VALIDATION} type message with isValid equal to %p`,
@@ -198,8 +197,10 @@ describe('Testing node.ts from services', () => {
         }),
       });
       const latestBlock = chainManager.getLatestBlock();
+      const status = chainManager.getStatus();
       expect(mockedBroadcast).toBeCalled;
       expect(latestBlock).toEqual(mockedBlock);
+      expect(status).toEqual(CHAIN_STATUS.READY);
     });
     it.each([
       [CHAIN_STATUS.READY],

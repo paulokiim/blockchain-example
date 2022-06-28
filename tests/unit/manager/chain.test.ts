@@ -39,6 +39,18 @@ describe('Testing chain.js from manager', () => {
       expect(mockedBroadcast).toHaveBeenCalled;
       sockets.pop();
     });
+
+    it('Should wait because status is lock', () => {
+      sockets.push(1);
+      jest.useFakeTimers();
+      jest.spyOn(blockchain, 'getLatestBlock').mockReturnValue(mockedBlock);
+      chainManager.setStatus(CHAIN_STATUS.LOCK);
+      chainManager.addBlock(mockAddBlockParams);
+      const mockedAddBlock = jest.spyOn(chainManager, 'addBlock');
+      jest.advanceTimersByTime(60000);
+      expect(mockedAddBlock).toBeCalled;
+      sockets.pop();
+    });
   });
 
   describe('Testing getUserBlocks()', () => {
