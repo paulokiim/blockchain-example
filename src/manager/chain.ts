@@ -9,20 +9,32 @@ import CHAIN_STATUS from '../enums/chain-status';
 
 const addBlock = (params: AddBlockParams) => {
   const { data } = params;
-  const buildedBlock = buildBlock(data);
   if (sockets.length > 0) {
-    setStatus(CHAIN_STATUS.LOCK);
-    nodeService.broadcast({
-      type: MSG_TYPES.CHANGE_CHAIN_STATUS,
-      data: { status: CHAIN_STATUS.LOCK },
-    });
-    nodeService.broadcast({
-      type: MSG_TYPES.ADD_BLOCK,
-      data: { block: buildedBlock },
-    });
+    if (getStatus() === CHAIN_STATUS.LOCK) {
+      setTimeout(() => {
+        addBlock(params);
+      }, Math.random() * 60000);
+    } else {
+      setStatus(CHAIN_STATUS.LOCK);
+      const block = buildBlock(data);
+      nodeService.broadcast({
+        type: MSG_TYPES.CHANGE_CHAIN_STATUS,
+        data: {
+          status: CHAIN_STATUS.LOCK,
+          timestamp: timestamp.getTimestamp(),
+        },
+      });
+      nodeService.broadcast({
+        type: MSG_TYPES.ADD_BLOCK,
+        data: { block },
+      });
+    }
   } else {
+    setStatus(CHAIN_STATUS.LOCK);
+    const buildedBlock = buildBlock(data);
     const isBlockchainValid = isChainValid(getBlockchain());
     if (isBlockchainValid) commitBlock(buildedBlock);
+    setStatus(CHAIN_STATUS.READY);
   }
   return {
     processing: true,

@@ -39,11 +39,8 @@ const getLatestBlock = (): Block => {
 };
 
 const addNewBlock = (block: Block): boolean => {
-  if (STATUS !== CHAIN_STATUS.LOCK) {
-    blockchain.push(block);
-    return true;
-  }
-  return false;
+  blockchain.push(block);
+  return true;
 };
 
 const chainIsValid = (blockchainArray: BlockchainArray): boolean => {

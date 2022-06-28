@@ -31,14 +31,15 @@ describe('Testing index.ts functions', () => {
   });
 
   describe('Testing setStatus() and getStatus()', () => {
-    it.each([CHAIN_STATUS.READY, CHAIN_STATUS.PRE_COMMIT, CHAIN_STATUS.LOCK])(
-      'Should set status',
-      (status) => {
-        blockchain.setStatus(status);
-        const newStatus = blockchain.getStatus();
-        expect(newStatus).toEqual(status);
-      }
-    );
+    it.each([
+      [CHAIN_STATUS.READY],
+      [CHAIN_STATUS.PRE_COMMIT],
+      [CHAIN_STATUS.LOCK],
+    ])('Should set status', (status) => {
+      blockchain.setStatus(status);
+      const newStatus = blockchain.getStatus();
+      expect(newStatus).toEqual(status);
+    });
   });
 
   describe('Testing createGenesisBlock()', () => {
@@ -71,20 +72,11 @@ describe('Testing index.ts functions', () => {
   });
 
   describe('Testing addNewBlock()', () => {
-    it.each([CHAIN_STATUS.READY, CHAIN_STATUS.PRE_COMMIT])(
-      'Should add a new block to the blockchain',
-      (status) => {
-        blockchain.setStatus(status);
-        mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
-        mockBlockCreateBlock.mockReturnValue(mockedBlock);
-        const isBlockAdded = blockchain.addNewBlock(mockedBlock);
-        expect(isBlockAdded).toBeTruthy;
-      }
-    );
-    it('Should not add a new block because is locked', () => {
-      blockchain.setStatus(CHAIN_STATUS.LOCK);
+    it('Should add a new block to the blockchain', () => {
+      mockGetLatestBlock.mockReturnValue(mockedGenesisBlock);
+      mockBlockCreateBlock.mockReturnValue(mockedBlock);
       const isBlockAdded = blockchain.addNewBlock(mockedBlock);
-      expect(isBlockAdded).toBeFalsy;
+      expect(isBlockAdded).toBeTruthy;
     });
   });
 

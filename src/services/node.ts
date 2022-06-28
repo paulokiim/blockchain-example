@@ -2,9 +2,11 @@ import WebSocket from 'ws';
 
 import config from '../core/config';
 import chainManager from '../manager/chain';
-import MSG_TYPES from '../enums/node-message';
 import { createHash } from '../utils/hash';
 import { sockets } from '../core/chain/node';
+import timestamp from '../utils/timestamp';
+import MSG_TYPES from '../enums/node-message';
+import CHAIN_STATUS from '../enums/chain-status';
 
 const receivedSignatures: Array<string> = [];
 
@@ -65,13 +67,14 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
             block: message.data.block,
           },
         });
-      } else
+      } else {
         writeMessage(ws, {
           type: MSG_TYPES.REJECT_BLOCK,
           data: {
             block: message.data.block,
           },
         });
+      }
       break;
     case MSG_TYPES.MAKE_CONCENSUS:
       broadcast({
@@ -81,28 +84,36 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
         },
       });
       setTimeout(() => {
-        const block: Block = message.data.block;
-        chainManager.commitBlock(block);
         broadcast({
           type: MSG_TYPES.SYNC_NODES,
           data: {
-            block,
+            block: message.data.block,
           },
         });
-      }, Math.random() * 60000); // onde colocar o clearTimeout?
-      break;
-    case MSG_TYPES.REJECT_BLOCK:
-      console.log('Bloco rejeitado: ', message.data.block);
+      }, Math.random() * 60000);
       break;
     case MSG_TYPES.SYNC_NODES:
-      const block: Block = message.data.block;
-      chainManager.commitBlock(block);
       broadcast({
         type: MSG_TYPES.SYNC_NODES,
         data: {
-          block,
+          block: message.data.block,
         },
       });
+      const block: Block = message.data.block;
+      chainManager.commitBlock(block);
+      chainManager.setStatus(CHAIN_STATUS.READY);
+      break;
+    case MSG_TYPES.REJECT_BLOCK:
+      chainManager.setStatus(CHAIN_STATUS.READY);
+      broadcast({
+        type: MSG_TYPES.CHANGE_CHAIN_STATUS,
+        data: {
+          status: CHAIN_STATUS.READY,
+          timestamp: timestamp.getTimestamp(),
+        },
+      });
+      console.log('Bloco rejeitado: ', message.data.block);
+      console.log('Blockchain: ', chainManager.getBlockchain());
       break;
   }
 };
@@ -110,7 +121,6 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
 const writeMessage = (ws: WebSocket.WebSocket, message: SocketMessage) => {
   const signatureString = `${config.TOKEN_SECRET}-${JSON.stringify(message)}`;
   const signature = createHash(signatureString);
-  receivedSignatures.push(signature);
   const payload = { signature, message };
   ws.send(JSON.stringify(payload));
 };
