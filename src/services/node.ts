@@ -31,6 +31,13 @@ const messageHandler = ({ ws, data }: MessageHandlerDTO) => {
       chainManager.replaceBlockchain(blockchain);
       break;
     case MSG_TYPES.CHANGE_CHAIN_STATUS:
+      broadcast({
+        type: MSG_TYPES.CHANGE_CHAIN_STATUS,
+        data: {
+          status: message.data.status,
+          timestamp: message.data.timestamp,
+        },
+      });
       const status = message.data.status;
       chainManager.setStatus(status);
       break;
